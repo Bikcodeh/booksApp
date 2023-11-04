@@ -1,4 +1,4 @@
-package com.bikcode.booksapp.screens.splash
+package com.bikcode.booksapp.ui.screens.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bikcode.booksapp.screens.home.ui.HomeScreen
-import com.bikcode.booksapp.screens.splash.SplashScreen
+import com.bikcode.booksapp.ui.screens.home.ui.HomeScreen
+import com.bikcode.booksapp.ui.screens.splash.SplashScreen
 
 @Composable
 fun SetupNavGraph(

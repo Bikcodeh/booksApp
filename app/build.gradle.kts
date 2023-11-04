@@ -68,8 +68,6 @@ dependencies {
             implementation(libs.hilt.android)
             implementation(libs.timber)
             kapt(libs.hilt.compiler)
-            implementation(libs.accompanist.insets)
-            implementation(libs.accompanist.foundation)
             implementation(platform(libs.firebaseBom))
 
             /** Network */

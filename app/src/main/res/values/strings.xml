@@ -11,4 +11,6 @@
     <string name="error_unauthorized_error">Ups! Unauthorized user</string>
     <string name="error_invalid_request_error">Ups! Invalid request happened</string>
     <string name="error_not_found_error">Ups! Not found error happened</string>
+    <string name="dashboard_description">Dashboard</string>
+    <string name="account_description">Account</string>
 </resources>
