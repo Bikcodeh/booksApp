@@ -4,6 +4,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -69,6 +70,7 @@ dependencies {
             kapt(libs.hilt.compiler)
             implementation(libs.accompanist.insets)
             implementation(libs.accompanist.foundation)
+            implementation(platform(libs.firebaseBom))
 
             /** Network */
             implementation(libs.retrofit)
