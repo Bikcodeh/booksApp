@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bikcode.booksapp.navigation.SetupNavGraph
+import com.bikcode.booksapp.ui.screens.register.RegisterScreen
 import com.bikcode.booksapp.ui.theme.BooksAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupNavGraph(navController = navHostController)
+                    //SetupNavGraph(navController = navHostController)
+                    RegisterScreen()
                 }
             }
         }
