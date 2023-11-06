@@ -1,6 +1,8 @@
 package com.bikcode.booksapp.ui.screens.signup
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,36 +11,86 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.navigation.Screens
 import com.bikcode.booksapp.ui.components.FormFieldString
 import com.bikcode.booksapp.ui.components.FormFieldStringPassword
+import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpEffect
 import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpEvent
 import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpViewModel
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpContent(
     onBack: () -> Unit,
+    navigate: (String) -> Unit,
     signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
+    val coroutine = rememberCoroutineScope()
+    val effects by signUpViewModel.effects.receiveAsFlow()
+        .collectAsStateWithLifecycle(initialValue = SignUpEffect.Loading(false))
+    when(effects) {
+        SignUpEffect.GoHome -> navigate(Screens.Home.route)
+        is SignUpEffect.Loading -> {
+            if ((effects as SignUpEffect.Loading).show) {
+                Dialog(
+                    onDismissRequest = {
+                        coroutine.launch {
+                            signUpViewModel.effects.send(
+                                SignUpEffect.Loading(
+                                    false
+                                )
+                            )
+                        }
+                    },
+                    DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .background(White, shape = RoundedCornerShape(8.dp))
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }
+        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -124,7 +176,7 @@ fun SignUpContent(
             Spacer(modifier = Modifier.height(20.dp))
             Button(
                 modifier = Modifier.height(50.dp),
-                onClick = {},
+                onClick = { signUpViewModel.sendEvent { SignUpEvent.DoSignUp } },
                 shape = ShapeDefaults.Small
             ) {
                 Text(

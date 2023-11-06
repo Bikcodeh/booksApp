@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SignUpScreen(onBack: () -> Unit) {
-    SignUpContent(onBack)
+fun SignUpScreen(onBack: () -> Unit, navigate: (String) -> Unit) {
+    SignUpContent(onBack, navigate = navigate)
 }
 
 @Preview(
@@ -18,7 +18,7 @@ fun SignUpScreen(onBack: () -> Unit) {
 )
 @Composable
 fun SignUpScreenPreviewDark() {
-    SignUpScreen(onBack = {})
+    SignUpScreen(onBack = {}, navigate = {})
 }
 
 @Preview(
@@ -29,5 +29,5 @@ fun SignUpScreenPreviewDark() {
 )
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(onBack = {})
+    SignUpScreen(onBack = {}, navigate = {})
 }

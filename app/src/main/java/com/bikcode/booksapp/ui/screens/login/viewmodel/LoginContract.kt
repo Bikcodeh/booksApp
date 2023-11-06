@@ -7,6 +7,7 @@ import com.bikcode.booksapp.ui.utils.ViewState
 
 sealed class LoginEffect : ViewSideEffect {
     data class Loading(val show: Boolean = false) : LoginEffect()
+    data class Navigate(val route: String): LoginEffect()
 }
 
 sealed class LoginEvent : ViewEvent {

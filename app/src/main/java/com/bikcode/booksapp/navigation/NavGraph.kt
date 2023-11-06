@@ -20,7 +20,7 @@ fun SetupNavGraph(
         composable(
             route = Screens.Splash.route,
             exitTransition = {
-               fadeOut()
+                fadeOut()
             }
         ) {
             SplashScreen(navigate = {
@@ -82,7 +82,15 @@ fun SetupNavGraph(
                 )
             }
         ) {
-            SignUpScreen(onBack = { navController.popBackStack() })
+            SignUpScreen(
+                onBack = { navController.popBackStack() },
+                navigate = {
+                    navController.navigate(it) {
+                        popUpTo(Screens.SignUp.route) {
+                            inclusive = true
+                        }
+                    }
+                })
         }
     }
 }

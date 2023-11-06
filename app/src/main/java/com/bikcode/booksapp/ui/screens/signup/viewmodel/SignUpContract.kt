@@ -6,7 +6,8 @@ import com.bikcode.booksapp.ui.utils.ViewSideEffect
 import com.bikcode.booksapp.ui.utils.ViewState
 
 sealed class SignUpEffect: ViewSideEffect {
-    data class Loading(val display: Boolean = false): SignUpEffect()
+    data class Loading(val show: Boolean = false): SignUpEffect()
+    object GoHome: SignUpEffect()
 }
 
 sealed class SignUpEvent: ViewEvent {

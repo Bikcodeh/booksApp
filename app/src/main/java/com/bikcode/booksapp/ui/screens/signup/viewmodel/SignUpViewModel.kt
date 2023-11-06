@@ -6,10 +6,14 @@ import androidx.compose.runtime.setValue
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.repository.DispatcherProvider
+import com.bikcode.booksapp.domain.usecase.auth.DoSignUpUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidateEmailUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidateEmptyFieldUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidatePasswordUseCase
 import com.bikcode.booksapp.ui.utils.MVIViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,6 +22,7 @@ class SignUpViewModel @Inject constructor(
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val validateEmptyFieldUseCase: ValidateEmptyFieldUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
+    private val doSignUpUseCase: DoSignUpUseCase,
     dispatcher: DispatcherProvider
 ) : MVIViewModel<SignUpEffect, SignUpEvent>(dispatcher) {
 
@@ -83,6 +88,24 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun signUp() {
-
+        if (validateEmail() && validatePassword() && validateName()) {
+            setEffect { SignUpEffect.Loading(show = true) }
+            val data = hashMapOf<String, Any>().apply {
+                put("name", viewState.name)
+                put("email", viewState.email)
+                put("password", viewState.password)
+                put("roleId", "Lwi3O8OEYk70sxSM1r0r")
+            }
+            doSignUpUseCase.invoke(
+                data = data,
+                onSuccess = {
+                    setEffect { SignUpEffect.Loading(show = false) }
+                    setEffect { SignUpEffect.GoHome }
+                },
+                onError = {
+                    setEffect { SignUpEffect.Loading(show = false) }
+                }
+            )
+        }
     }
 }

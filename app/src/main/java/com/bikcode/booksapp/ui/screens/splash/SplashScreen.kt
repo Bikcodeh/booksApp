@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.navigation.Screens
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -24,7 +25,11 @@ fun SplashScreen(
     LaunchedEffect(key1 = true) {
         coroutine.launch {
             delay(1000)
-            navigate(Screens.Login.route)
+            FirebaseAuth.getInstance().currentUser?.let {
+                navigate(Screens.Home.route)
+            } ?: run {
+                navigate(Screens.Login.route)
+            }
         }
     }
     Column(

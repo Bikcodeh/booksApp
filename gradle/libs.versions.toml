@@ -42,4 +42,4 @@ moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "mosh
 moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "moshi" }
 firebaseBom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom"}
 firebaseAuthentication = { module = "com.google.firebase:firebase-auth-ktx" }
-firebaseDatabase = { module = "com.google.firebase:firebase-database-ktx" }
+firebaseDatabase = { module = "com.google.firebase:firebase-firestore" }
