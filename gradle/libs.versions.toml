@@ -3,10 +3,11 @@ compose = "1.5.4"
 kotlin = "1.8.0"
 core-ktx = "1.12.0"
 lifecycle-runtime = "2.6.2"
+compose-navigation = "2.7.5"
 activity-compose = "1.8.0"
 compose-constraintLayout = "1.0.1"
 material3-compose = "1.2.0-alpha10"
-compose-navigation = "2.7.5"
+compose-nav = "2.7.5"
 runtime-compose = "2.6.2"
 dagger-hilt = "2.48"
 hilt-navigation-compose = "1.1.0"
@@ -22,6 +23,7 @@ firebaseBom = "32.5.0"
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-nav" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-constraint-layout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "compose-constraintLayout" }
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }

@@ -42,7 +42,7 @@ import com.bikcode.booksapp.ui.components.FormFieldStringPassword
 import com.bikcode.booksapp.ui.theme.CoolGrey
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(onBack: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +59,7 @@ fun RegisterScreen() {
             .constrainAs(backButton) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
-            }, onClick = {}) {
+            }, onClick = { onBack() }) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
         }
         Text(
@@ -70,7 +70,8 @@ fun RegisterScreen() {
                     top.linkTo(backButton.bottom, 34.dp)
                     start.linkTo(parent.start)
                 }
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            color = MaterialTheme.colorScheme.primary
         )
 
         Column(modifier = Modifier
@@ -84,28 +85,28 @@ fun RegisterScreen() {
                 label = R.string.name,
                 placeholder = R.string.name_placeholder,
                 formValue = nameForm,
-                onChangeValue = { nameForm.value = it}
+                onChangeValue = { nameForm.value = it }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldString(
                 label = R.string.email,
                 placeholder = R.string.email_placeholder,
                 formValue = emailForm,
-                onChangeValue = { emailForm.value = it}
+                onChangeValue = { emailForm.value = it }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password,
                 placeholder = R.string.password_placeholder,
                 formValue = passwordForm,
-                onChangeValue = { passwordForm.value = it}
+                onChangeValue = { passwordForm.value = it }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password_confirm,
                 placeholder = R.string.password_placeholder,
                 formValue = confirmPasswordForm,
-                onChangeValue = { confirmPasswordForm.value = it}
+                onChangeValue = { confirmPasswordForm.value = it }
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
@@ -132,8 +133,9 @@ fun RegisterScreen() {
 )
 @Composable
 fun RegisterScreenPreviewDark() {
-    RegisterScreen()
+    RegisterScreen(onBack = {})
 }
+
 @Preview(
     showBackground = true,
     uiMode = UI_MODE_NIGHT_NO,
@@ -142,5 +144,5 @@ fun RegisterScreenPreviewDark() {
 )
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen()
+    RegisterScreen(onBack = {})
 }

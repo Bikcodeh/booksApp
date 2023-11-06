@@ -11,19 +11,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.navigation.Screens
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun SplashScreen(
-    navigateToHome: () -> Unit
+    navigate: (String) -> Unit
 ) {
     val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = true) {
         coroutine.launch {
             delay(1000)
-            navigateToHome()
+            navigate(Screens.Login.route)
         }
     }
     Column(

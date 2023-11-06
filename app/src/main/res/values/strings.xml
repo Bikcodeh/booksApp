@@ -24,4 +24,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
+    <string name="login_title">Login</string>
+    <string name="login_btn">LOGIN</string>
+    <string name="signup_link">Not yet registered? Sign up</string>
 </resources>

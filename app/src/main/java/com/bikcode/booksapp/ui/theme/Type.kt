@@ -16,97 +16,22 @@ val fonts = FontFamily(
     Font(R.font.roboto_bold, weight = FontWeight.Bold),
     Font(R.font.roboto_regular, weight = FontWeight.Normal)
 )
+private val originalTypography = Typography()
 
 val BooksAppTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 57.sp,
-        letterSpacing = 0.em,
-    ),
-    displayMedium = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Light,
-        fontSize = 45.sp,
-        letterSpacing = 0.em,
-    ),
-    displaySmall = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp,
-        letterSpacing = 0.em,
-    ),
-    headlineLarge = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 32.sp,
-        letterSpacing = 0.01.em,
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 24.sp,
-        letterSpacing = 0.em,
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
-        fontSize = 32.sp,
-        letterSpacing = 0.15.em,
-    ),
-    titleLarge = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        letterSpacing = 0.01.em
-    ),
-    titleMedium = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        letterSpacing = 0.15.em,
-    ),
-    titleSmall = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        letterSpacing = 0.09.em
-
-    ),
-    labelLarge = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Light,
-        fontSize = 14.sp,
-        letterSpacing = 0.02.em
-    ),
-    labelMedium = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        letterSpacing = 0.em
-    ),
-    labelSmall = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        letterSpacing = 0.5.em
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        letterSpacing = 0.03.em
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        letterSpacing = 0.25.em
-    ),
-    bodySmall = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        letterSpacing = 0.02.em
-    )
+    titleLarge = originalTypography.titleLarge.copy(fontFamily = fonts),
+    titleMedium = originalTypography.titleMedium.copy(fontFamily = fonts),
+    titleSmall = originalTypography.titleSmall.copy(fontFamily = fonts),
+    bodyLarge = originalTypography.bodyLarge.copy(fontFamily = fonts),
+    bodyMedium = originalTypography.bodyMedium.copy(fontFamily = fonts),
+    bodySmall = originalTypography.bodySmall.copy(fontFamily = fonts),
+    headlineLarge = originalTypography.headlineLarge.copy(fontFamily = fonts),
+    headlineMedium = originalTypography.headlineMedium.copy(fontFamily = fonts),
+    headlineSmall = originalTypography.headlineSmall.copy(fontFamily = fonts),
+    labelLarge = originalTypography.labelLarge.copy(fontFamily = fonts),
+    labelMedium = originalTypography.labelMedium.copy(fontFamily = fonts),
+    labelSmall = originalTypography.labelSmall.copy(fontFamily = fonts),
+    displayLarge = originalTypography.displayLarge.copy(fontFamily = fonts),
+    displayMedium = originalTypography.displayMedium.copy(fontFamily = fonts),
+    displaySmall = originalTypography.displaySmall.copy(fontFamily = fonts),
 )

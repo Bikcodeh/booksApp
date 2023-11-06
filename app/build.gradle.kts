@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.runtime.compose)
     implementation(libs.activity.compose)
     implementation(libs.compose.ui)
+    implementation(libs.compose.navigation)
     implementation(libs.compose.constraint.layout)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.tooling.preview)
