@@ -3,10 +3,9 @@ compose = "1.5.4"
 kotlin = "1.8.0"
 core-ktx = "1.12.0"
 lifecycle-runtime = "2.6.2"
-compose-navigation = "2.7.5"
 activity-compose = "1.8.0"
 compose-constraintLayout = "1.0.1"
-material3-compose = "1.2.0-alpha10"
+material3-compose = "1.1.2"
 compose-nav = "2.7.5"
 runtime-compose = "2.6.2"
 dagger-hilt = "2.48"
@@ -31,7 +30,6 @@ material3-compose = { module = "androidx.compose.material3:material3", version.r
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
 runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "runtime-compose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger-hilt" }

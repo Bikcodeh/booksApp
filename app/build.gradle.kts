@@ -64,7 +64,6 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.tooling.preview)
     implementation(libs.material3.compose)
-    implementation(libs.navigation.compose)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.timber)
