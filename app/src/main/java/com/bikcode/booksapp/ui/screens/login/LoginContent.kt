@@ -15,8 +15,10 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -36,8 +38,8 @@ fun LoginContent(
     modifier: Modifier = Modifier,
     navigate: (String) -> Unit
 ) {
-    val emailText = rememberSaveable { mutableStateOf("") }
-    val passwordText = rememberSaveable { mutableStateOf("") }
+    var emailText by rememberSaveable { mutableStateOf("") }
+    var passwordText by rememberSaveable { mutableStateOf("") }
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
@@ -81,14 +83,14 @@ fun LoginContent(
                 label = R.string.email,
                 placeholder = R.string.email_placeholder,
                 formValue = emailText,
-                onChangeValue = { emailText.value = it }
+                onChangeValue = { emailText = it }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password,
                 placeholder = R.string.password_placeholder,
                 formValue = passwordText,
-                onChangeValue = { passwordText.value = it }
+                onChangeValue = { passwordText = it }
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(

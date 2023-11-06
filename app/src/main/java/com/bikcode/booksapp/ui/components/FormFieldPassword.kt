@@ -18,7 +18,6 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,7 +46,7 @@ fun ColumnScope.FormFieldStringPassword(
     modifier: Modifier = Modifier,
     @StringRes label: Int,
     @StringRes placeholder: Int,
-    formValue: State<String>,
+    formValue: String,
     onChangeValue: (String) -> Unit
 ) {
     var focused by remember { mutableStateOf(false) }
@@ -91,7 +90,7 @@ fun ColumnScope.FormFieldStringPassword(
                 .onFocusEvent {
                     focused = it.isFocused
                 },
-            value = formValue.value,
+            value = formValue,
             onValueChange = { onChangeValue(it) },
             singleLine = true,
             maxLines = 1,
@@ -116,7 +115,7 @@ private fun FieldPreview() {
         FormFieldStringPassword(
             label = R.string.name,
             placeholder = R.string.name_placeholder,
-            formValue = data,
+            formValue = "",
             onChangeValue = {}
         )
     }

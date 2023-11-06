@@ -1,7 +1,5 @@
 package com.bikcode.booksapp.ui.screens.signup
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,33 +19,33 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.ui.components.FormFieldString
 import com.bikcode.booksapp.ui.components.FormFieldStringPassword
+import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpEvent
+import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpViewModel
 
 @Composable
-fun SignUpScreen(onBack: () -> Unit) {
+fun SignUpContent(
+    onBack: () -> Unit,
+    signUpViewModel: SignUpViewModel = hiltViewModel()
+) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        val nameForm = remember { mutableStateOf("") }
-        val emailForm = remember { mutableStateOf("") }
-        val passwordForm = remember { mutableStateOf("") }
-        val confirmPasswordForm = remember { mutableStateOf("") }
+
         val (backButton, title, form, image) = createRefs()
         IconButton(modifier = Modifier
             .size(24.dp)
@@ -95,29 +93,29 @@ fun SignUpScreen(onBack: () -> Unit) {
             FormFieldString(
                 label = R.string.name,
                 placeholder = R.string.name_placeholder,
-                formValue = nameForm,
-                onChangeValue = { nameForm.value = it }
+                formValue = signUpViewModel.viewState.name,
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnNameChange(it) } }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldString(
                 label = R.string.email,
                 placeholder = R.string.email_placeholder,
-                formValue = emailForm,
-                onChangeValue = { emailForm.value = it }
+                formValue = signUpViewModel.viewState.email,
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnEmailChange(it) } }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password,
                 placeholder = R.string.password_placeholder,
-                formValue = passwordForm,
-                onChangeValue = { passwordForm.value = it }
+                formValue = signUpViewModel.viewState.password,
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnPasswordChange(it) } }
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password_confirm,
                 placeholder = R.string.password_placeholder,
-                formValue = confirmPasswordForm,
-                onChangeValue = { confirmPasswordForm.value = it }
+                formValue = signUpViewModel.viewState.confirmPassword,
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnConfirmPasswordChange(it) } }
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
@@ -135,26 +133,4 @@ fun SignUpScreen(onBack: () -> Unit) {
             Spacer(modifier = Modifier.height(100.dp))
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES,
-    showSystemUi = true,
-    device = "spec:width=360dp,height=640dp,dpi=160"
-)
-@Composable
-fun SignUpScreenPreviewDark() {
-    SignUpScreen(onBack = {})
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_NO,
-    showSystemUi = true,
-    device = "spec:width=360dp,height=640dp,dpi=160"
-)
-@Composable
-fun SignUpScreenPreview() {
-    SignUpScreen(onBack = {})
 }

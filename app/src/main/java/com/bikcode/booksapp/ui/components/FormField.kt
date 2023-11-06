@@ -15,7 +15,6 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +38,7 @@ fun ColumnScope.FormFieldString(
     modifier: Modifier = Modifier,
     @StringRes label: Int,
     @StringRes placeholder: Int,
-    formValue: State<String>,
+    formValue: String,
     onChangeValue: (String) -> Unit
 ) {
     var focused by remember { mutableStateOf(false) }
@@ -68,7 +67,7 @@ fun ColumnScope.FormFieldString(
                 .onFocusEvent {
                     focused = it.isFocused
                 },
-            value = formValue.value,
+            value = formValue,
             onValueChange = { onChangeValue(it) },
             singleLine = true,
             maxLines = 1,
@@ -93,7 +92,7 @@ private fun FieldPreview() {
         FormFieldString(
             label = R.string.name,
             placeholder = R.string.name_placeholder,
-            formValue = data,
+            formValue = "",
             onChangeValue = {}
         )
     }
