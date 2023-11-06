@@ -2,6 +2,7 @@ package com.bikcode.booksapp.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,10 +20,7 @@ fun SetupNavGraph(
         composable(
             route = Screens.Splash.route,
             exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
+               fadeOut()
             }
         ) {
             SplashScreen(navigate = {
