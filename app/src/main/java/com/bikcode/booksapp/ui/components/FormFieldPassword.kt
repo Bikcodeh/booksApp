@@ -36,7 +36,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.ui.theme.formFieldColorFocused
 import com.bikcode.booksapp.ui.theme.formFieldColorUnfocused
 import com.bikcode.booksapp.ui.theme.formTextColor
@@ -47,7 +49,8 @@ fun ColumnScope.FormFieldStringPassword(
     @StringRes label: Int,
     @StringRes placeholder: Int,
     formValue: String,
-    onChangeValue: (String) -> Unit
+    onChangeValue: (String) -> Unit,
+    error: UiText? = null
 ) {
     var focused by remember { mutableStateOf(false) }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
@@ -72,6 +75,7 @@ fun ColumnScope.FormFieldStringPassword(
             },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            isError = error != null,
             trailingIcon = {
                 val image = if (passwordVisible)
                     R.drawable.ic_visibility
@@ -103,14 +107,14 @@ fun ColumnScope.FormFieldStringPassword(
             shape = ShapeDefaults.Medium
         )
     }
+    if (error != null) {
+        Text(text = error.asString(), color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+    }
 }
 
 @Preview
 @Composable
 private fun FieldPreview() {
-    val data = remember {
-        mutableStateOf("")
-    }
     Column {
         FormFieldStringPassword(
             label = R.string.name,

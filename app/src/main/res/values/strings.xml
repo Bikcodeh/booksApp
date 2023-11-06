@@ -27,4 +27,10 @@
     <string name="login_title">Login</string>
     <string name="login_btn">LOGIN</string>
     <string name="signup_link">Not yet registered? Sign up</string>
+    <string name="strTheEmailCanNotBeBlank">Email is required</string>
+    <string name="strThatsNotAValidEmail">Email is not valid</string>
+    <string name="name_required">Name is required</string>
+    <string name="strThePasswordNeedsToConsistOfAtLeastEightCharacters">Needs at least 8 characters</string>
+    <string name="strThePasswordNeedsToContainAtLeastOneLetterAndDigit">Needs to contain at least one letter and digit</string>
+    <string name="password_not_match">Password not match</string>
 </resources>

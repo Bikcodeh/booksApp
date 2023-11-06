@@ -94,28 +94,32 @@ fun SignUpContent(
                 label = R.string.name,
                 placeholder = R.string.name_placeholder,
                 formValue = signUpViewModel.viewState.name,
-                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnNameChange(it) } }
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnNameChange(it) } },
+                hasError = signUpViewModel.viewState.nameError
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldString(
                 label = R.string.email,
                 placeholder = R.string.email_placeholder,
                 formValue = signUpViewModel.viewState.email,
-                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnEmailChange(it) } }
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnEmailChange(it) } },
+                hasError = signUpViewModel.viewState.emailError
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password,
                 placeholder = R.string.password_placeholder,
                 formValue = signUpViewModel.viewState.password,
-                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnPasswordChange(it) } }
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnPasswordChange(it) } },
+                error = signUpViewModel.viewState.passwordError
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password_confirm,
                 placeholder = R.string.password_placeholder,
                 formValue = signUpViewModel.viewState.confirmPassword,
-                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnConfirmPasswordChange(it) } }
+                onChangeValue = { signUpViewModel.sendEvent { SignUpEvent.OnConfirmPasswordChange(it) } },
+                error = signUpViewModel.viewState.confirmPasswordError
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(

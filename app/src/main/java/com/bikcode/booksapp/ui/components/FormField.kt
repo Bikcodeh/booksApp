@@ -28,7 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.ui.theme.formFieldColorFocused
 import com.bikcode.booksapp.ui.theme.formFieldColorUnfocused
 import com.bikcode.booksapp.ui.theme.formTextColor
@@ -39,7 +41,8 @@ fun ColumnScope.FormFieldString(
     @StringRes label: Int,
     @StringRes placeholder: Int,
     formValue: String,
-    onChangeValue: (String) -> Unit
+    onChangeValue: (String) -> Unit,
+    hasError: UiText? = null
 ) {
     var focused by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
@@ -71,29 +74,32 @@ fun ColumnScope.FormFieldString(
             onValueChange = { onChangeValue(it) },
             singleLine = true,
             maxLines = 1,
+            isError = hasError != null,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = Color.Transparent,
                 unfocusedContainerColor = MaterialTheme.colorScheme.formFieldColorUnfocused,
                 focusedBorderColor = Color.Transparent,
-                focusedContainerColor = MaterialTheme.colorScheme.formFieldColorFocused
+                focusedContainerColor = MaterialTheme.colorScheme.formFieldColorFocused,
+                errorContainerColor = MaterialTheme.colorScheme.formFieldColorFocused
             ),
             shape = ShapeDefaults.Medium
         )
+    }
+    if (hasError != null) {
+        Text(text = hasError.asString(), color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
     }
 }
 
 @Preview
 @Composable
 private fun FieldPreview() {
-    val data = remember {
-        mutableStateOf("")
-    }
     Column {
         FormFieldString(
             label = R.string.name,
             placeholder = R.string.name_placeholder,
             formValue = "",
-            onChangeValue = {}
+            onChangeValue = {},
+            hasError = UiText.StringResource(R.string.name)
         )
     }
 }
