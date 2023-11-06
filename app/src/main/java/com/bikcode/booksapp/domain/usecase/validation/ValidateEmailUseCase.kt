@@ -8,7 +8,7 @@ import com.bikcode.booksapp.domain.model.ValidationResult
 import javax.inject.Inject
 
 class ValidateEmailUseCase @Inject constructor() : BaseValidationUseCase<String, ValidationResult> {
-    override fun execute(input: String): ValidationResult {
+    override fun execute(input: String, errorString: Int?): ValidationResult {
         if (input.isBlank()) {
             return ValidationResult(
                 successful = false,

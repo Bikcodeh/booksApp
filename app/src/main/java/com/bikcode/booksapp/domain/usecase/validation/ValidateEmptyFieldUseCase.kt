@@ -8,11 +8,11 @@ import javax.inject.Inject
 
 class ValidateEmptyFieldUseCase @Inject constructor() :
     BaseValidationUseCase<String, ValidationResult> {
-    override fun execute(input: String): ValidationResult {
+    override fun execute(input: String, errorString: Int?): ValidationResult {
         if (input.isEmpty()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = UiText.StringResource(R.string.name_required)
+                errorMessage = UiText.StringResource(errorString ?: R.string.error)
             )
         }
         return ValidationResult(

@@ -28,18 +28,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.navigation.Screens
 import com.bikcode.booksapp.ui.components.FormFieldString
 import com.bikcode.booksapp.ui.components.FormFieldStringPassword
+import com.bikcode.booksapp.ui.screens.login.viewmodel.LoginEvent
+import com.bikcode.booksapp.ui.screens.login.viewmodel.LoginViewModel
 
 @Composable
 fun LoginContent(
     modifier: Modifier = Modifier,
-    navigate: (String) -> Unit
+    navigate: (String) -> Unit,
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
-    var emailText by rememberSaveable { mutableStateOf("") }
-    var passwordText by rememberSaveable { mutableStateOf("") }
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
@@ -82,15 +84,17 @@ fun LoginContent(
             FormFieldString(
                 label = R.string.email,
                 placeholder = R.string.email_placeholder,
-                formValue = emailText,
-                onChangeValue = { emailText = it }
+                formValue = loginViewModel.viewState.email,
+                onChangeValue = { loginViewModel.sendEvent { LoginEvent.OnEmailChange(it) } },
+                hasError = loginViewModel.viewState.emailError
             )
             Spacer(modifier = Modifier.height(12.dp))
             FormFieldStringPassword(
                 label = R.string.password,
                 placeholder = R.string.password_placeholder,
-                formValue = passwordText,
-                onChangeValue = { passwordText = it }
+                formValue = loginViewModel.viewState.password,
+                onChangeValue = { loginViewModel.sendEvent { LoginEvent.OnPasswordChange(it) } },
+                error = loginViewModel.viewState.passwordError
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(

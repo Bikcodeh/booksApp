@@ -8,7 +8,7 @@ import com.bikcode.booksapp.domain.model.ValidationResult
 import javax.inject.Inject
 
 class ValidatePasswordUseCase @Inject constructor(): BaseValidationUseCase<String, ValidationResult> {
-    override fun execute(input: String): ValidationResult {
+    override fun execute(input: String, errorString: Int?): ValidationResult {
         if (input.length < 8) {
             return ValidationResult(
                 successful = false,

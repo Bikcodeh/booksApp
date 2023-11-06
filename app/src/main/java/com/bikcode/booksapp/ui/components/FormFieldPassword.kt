@@ -102,7 +102,8 @@ fun ColumnScope.FormFieldStringPassword(
                 unfocusedBorderColor = Color.Transparent,
                 unfocusedContainerColor = MaterialTheme.colorScheme.formFieldColorUnfocused,
                 focusedBorderColor = Color.Transparent,
-                focusedContainerColor = MaterialTheme.colorScheme.formFieldColorFocused
+                focusedContainerColor = MaterialTheme.colorScheme.formFieldColorFocused,
+                errorContainerColor = MaterialTheme.colorScheme.formFieldColorFocused
             ),
             shape = ShapeDefaults.Medium
         )
