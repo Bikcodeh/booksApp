@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -92,7 +93,12 @@ fun ColumnScope.FormFieldString(
         )
     }
     if (hasError != null) {
-        Text(text = hasError.asString(), color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+        Text(
+            text = hasError.asString(),
+            modifier = Modifier.padding(horizontal = 8.dp),
+            color = MaterialTheme.colorScheme.error,
+            fontSize = 12.sp
+        )
     }
 }
 
