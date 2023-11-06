@@ -2,6 +2,7 @@ package com.bikcode.booksapp.ui.screens.register
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,31 +48,47 @@ fun RegisterScreen(onBack: () -> Unit) {
         val emailForm = remember { mutableStateOf("") }
         val passwordForm = remember { mutableStateOf("") }
         val confirmPasswordForm = remember { mutableStateOf("") }
-        val (backButton, title, form) = createRefs()
+        val (backButton, title, form, image) = createRefs()
         IconButton(modifier = Modifier
             .size(24.dp)
             .constrainAs(backButton) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
             }, onClick = { onBack() }) {
-            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
         }
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .constrainAs(image) {
+                    top.linkTo(title.bottom)
+                },
+            painter = painterResource(id = R.drawable.sign_up_amico),
+            contentDescription = null
+        )
         Text(
             text = stringResource(id = R.string.sign_up_title),
             style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .constrainAs(title) {
-                    top.linkTo(backButton.bottom, 34.dp)
+                    top.linkTo(backButton.bottom, 8.dp)
                     start.linkTo(parent.start)
                 }
                 .fillMaxWidth(),
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold
         )
 
         Column(modifier = Modifier
             .fillMaxWidth()
             .constrainAs(form) {
-                top.linkTo(title.bottom, 34.dp)
+                top.linkTo(image.bottom, 14.dp)
                 width = Dimension.matchParent
             }
         ) {
@@ -114,6 +132,7 @@ fun RegisterScreen(onBack: () -> Unit) {
                     fontWeight = FontWeight.Bold
                 )
             }
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
