@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bikcode.booksapp.ui.screens.home.ui.HomeScreen
 import com.bikcode.booksapp.ui.screens.login.LoginScreen
-import com.bikcode.booksapp.ui.screens.register.RegisterScreen
+import com.bikcode.booksapp.ui.screens.signup.SignUpScreen
 import com.bikcode.booksapp.ui.screens.splash.SplashScreen
 
 @Composable
@@ -84,7 +84,7 @@ fun SetupNavGraph(
                 )
             }
         ) {
-            RegisterScreen(onBack = { navController.popBackStack() })
+            SignUpScreen(onBack = { navController.popBackStack() })
         }
     }
 }

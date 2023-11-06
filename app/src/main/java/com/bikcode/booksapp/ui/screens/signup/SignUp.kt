@@ -1,4 +1,4 @@
-package com.bikcode.booksapp.ui.screens.register
+package com.bikcode.booksapp.ui.screens.signup
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
@@ -37,7 +37,7 @@ import com.bikcode.booksapp.ui.components.FormFieldString
 import com.bikcode.booksapp.ui.components.FormFieldStringPassword
 
 @Composable
-fun RegisterScreen(onBack: () -> Unit) {
+fun SignUpScreen(onBack: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -144,8 +144,8 @@ fun RegisterScreen(onBack: () -> Unit) {
     device = "spec:width=360dp,height=640dp,dpi=160"
 )
 @Composable
-fun RegisterScreenPreviewDark() {
-    RegisterScreen(onBack = {})
+fun SignUpScreenPreviewDark() {
+    SignUpScreen(onBack = {})
 }
 
 @Preview(
@@ -155,6 +155,6 @@ fun RegisterScreenPreviewDark() {
     device = "spec:width=360dp,height=640dp,dpi=160"
 )
 @Composable
-fun RegisterScreenPreview() {
-    RegisterScreen(onBack = {})
+fun SignUpScreenPreview() {
+    SignUpScreen(onBack = {})
 }
