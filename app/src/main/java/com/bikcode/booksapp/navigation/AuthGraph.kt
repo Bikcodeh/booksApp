@@ -2,79 +2,82 @@ package com.bikcode.booksapp.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bikcode.booksapp.ui.screens.account.AccountScreen
-import com.bikcode.booksapp.ui.screens.dashboard.DashboardScreen
+import androidx.navigation.navigation
+import com.bikcode.booksapp.ui.screens.login.LoginScreen
+import com.bikcode.booksapp.ui.screens.signup.SignUpScreen
 
-@Composable
-fun SetupBottomNavGraphAdmin(
-    navController: NavHostController,
-    onLogOut: () -> Unit
-) {
-    NavHost(
-        navController = navController,
-        startDestination = ScreensAdmin.Dashboard.route
-    ) {
+const val GRAPH_AUTH = "AUTH"
+fun NavGraphBuilder.authGraph(navController: NavHostController) {
+    navigation(startDestination = Screens.Login.route, route = GRAPH_AUTH) {
         composable(
-            route = ScreensAdmin.Dashboard.route,
+            route = Screens.Login.route,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(300)
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(300)
+                    animationSpec = tween(700)
                 )
             },
             popEnterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(300)
+                    animationSpec = tween(700)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(300)
+                    animationSpec = tween(700)
                 )
             }
         ) {
-            DashboardScreen(onLogOut)
+            LoginScreen(navigate = { navController.navigate(it) })
         }
+
         composable(
-            route = ScreensAdmin.Account.route,
+            route = Screens.SignUp.route,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(300)
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(300)
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
                 )
             },
             popEnterTransition = {
                 slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(300)
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(300)
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
                 )
             }
         ) {
-            AccountScreen()
+            SignUpScreen(
+                onBack = { navController.popBackStack() },
+                navigate = {
+                    navController.navigate(it) {
+                        popUpTo(Screens.SignUp.route) {
+                            inclusive = true
+                        }
+                    }
+                })
         }
     }
 }

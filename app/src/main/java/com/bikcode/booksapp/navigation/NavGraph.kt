@@ -2,6 +2,7 @@ package com.bikcode.booksapp.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -11,86 +12,71 @@ import com.bikcode.booksapp.ui.screens.home.ui.HomeScreen
 import com.bikcode.booksapp.ui.screens.login.LoginScreen
 import com.bikcode.booksapp.ui.screens.signup.SignUpScreen
 import com.bikcode.booksapp.ui.screens.splash.SplashScreen
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = Screens.Splash.route) {
+    NavHost(
+        navController = navController,
+        startDestination = Screens.Splash.route,
+        route = "ROOT"
+    ) {
         composable(
             route = Screens.Splash.route,
             exitTransition = {
                 fadeOut()
             }
         ) {
-            SplashScreen(navigate = {
-                navController.navigate(it) {
-                    popUpTo(navController.graph.id) {
-                        inclusive = true
-                    }
-                }
-            })
-        }
-        composable(route = Screens.Home.route) {
-            HomeScreen()
-        }
-        composable(route = Screens.Login.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            }, exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            }, popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            }, popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            }
-        ) {
-            LoginScreen(navigate = { navController.navigate(it) })
-        }
-        composable(route = Screens.SignUp.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            }, exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            }, popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            }, popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            }
-        ) {
-            SignUpScreen(
-                onBack = { navController.popBackStack() },
+            SplashScreen(
                 navigate = {
                     navController.navigate(it) {
-                        popUpTo(Screens.SignUp.route) {
+                        popUpTo(navController.graph.id) {
                             inclusive = true
                         }
                     }
-                })
+                }
+            )
         }
+        composable(
+            route = Screens.Home.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
+            }
+        ) {
+            HomeScreen(
+                onLogOut = {
+                    FirebaseAuth.getInstance().signOut()
+                    navController.navigate(GRAPH_AUTH) {
+                        popUpTo(GRAPH_AUTH) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+        authGraph(navController)
     }
 }

@@ -4,13 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.bikcode.booksapp.R
-import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.repository.DispatcherProvider
 import com.bikcode.booksapp.domain.usecase.auth.DoLoginUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidateEmailUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidateEmptyFieldUseCase
-import com.bikcode.booksapp.navigation.Screens
-import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpUiState
 import com.bikcode.booksapp.ui.utils.MVIViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -58,17 +55,15 @@ class LoginViewModel @Inject constructor(
 
     private fun doLogin() {
         if (validateEmail() && validatePassword()) {
-            setEffect { LoginEffect.Loading(true) }
+            viewState = viewState.copy(showLoading = true)
             doLoginUseCase(
                 viewState.email,
                 viewState.password,
                 onSuccess = {
-                    setEffect { LoginEffect.Loading(false) }
-                    setEffect { LoginEffect.Navigate(Screens.Home.route) }
+                    viewState = viewState.copy(goToHome = true, showLoading = false)
+
                 },
-                onError = {
-                    setEffect { LoginEffect.Loading(false) }
-                }
+                onError = { viewState = viewState.copy(showLoading = false) }
             )
         } else {
             validateEmail()

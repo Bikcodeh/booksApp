@@ -9,13 +9,13 @@ import com.bikcode.booksapp.ui.components.BottomBarAdmin
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onLogOut: () -> Unit,
+) {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = {
-            BottomBarAdmin(navController)
-        }
+        bottomBar = { BottomBarAdmin(navController) }
     ) {
-        SetupBottomNavGraphAdmin(navController = navController)
+        SetupBottomNavGraphAdmin(navController, onLogOut)
     }
 }

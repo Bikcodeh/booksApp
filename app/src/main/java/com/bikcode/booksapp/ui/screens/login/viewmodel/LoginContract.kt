@@ -5,10 +5,7 @@ import com.bikcode.booksapp.ui.utils.ViewEvent
 import com.bikcode.booksapp.ui.utils.ViewSideEffect
 import com.bikcode.booksapp.ui.utils.ViewState
 
-sealed class LoginEffect : ViewSideEffect {
-    data class Loading(val show: Boolean = false) : LoginEffect()
-    data class Navigate(val route: String): LoginEffect()
-}
+sealed class LoginEffect : ViewSideEffect {}
 
 sealed class LoginEvent : ViewEvent {
     data class OnEmailChange(val text: String) : LoginEvent()
@@ -20,5 +17,7 @@ data class LoginUiState(
     val email: String = "",
     val password: String = "",
     val emailError: UiText? = null,
-    val passwordError: UiText? = null
+    val passwordError: UiText? = null,
+    val goToHome: Boolean = false,
+    val showLoading: Boolean = false
 ) : ViewState
