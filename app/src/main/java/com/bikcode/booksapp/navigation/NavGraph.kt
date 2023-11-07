@@ -2,15 +2,12 @@ package com.bikcode.booksapp.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bikcode.booksapp.ui.screens.home.ui.HomeScreen
-import com.bikcode.booksapp.ui.screens.login.LoginScreen
-import com.bikcode.booksapp.ui.screens.signup.SignUpScreen
 import com.bikcode.booksapp.ui.screens.splash.SplashScreen
 import com.google.firebase.auth.FirebaseAuth
 

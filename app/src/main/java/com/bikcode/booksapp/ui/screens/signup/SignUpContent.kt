@@ -49,7 +49,11 @@ fun SignUpContent(
     onSignUp: () -> Unit
 ) {
 
-    LaunchedEffect(key1 = signUpUiState.goHome) { navigate(Screens.Home.route) }
+    LaunchedEffect(key1 = signUpUiState.goHome) {
+        if (signUpUiState.goHome) {
+            navigate(Screens.Home.route)
+        }
+    }
     if (signUpUiState.showLoading) {
         DialogLoading()
     }
