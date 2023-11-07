@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.timber)
+    implementation(libs.gson)
     kapt(libs.hilt.compiler)
     implementation(platform(libs.firebaseBom))
     implementation(libs.firebaseAuthentication)

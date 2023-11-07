@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bikcode.booksapp.ui.components.CategoryBook
 
 @Composable
 fun DashboardScreen(
@@ -21,5 +22,7 @@ fun DashboardScreen(
         Button(onClick = { onLogOut() }) {
             Text(text = "Logout")
         }
+
+        CategoryBook(onEdit = {}, onDelete = {}, textValue = "Action")
     }
 }

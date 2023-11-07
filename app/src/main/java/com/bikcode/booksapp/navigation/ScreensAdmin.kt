@@ -20,4 +20,14 @@ sealed class ScreensAdmin(
         title = R.string.account_description,
         icon = R.drawable.ic_account
     )
+    object Upload : ScreensAdmin(
+        route = "upload_screen",
+        title = R.string.upload_description,
+        icon = R.drawable.ic_upload
+    )
+    object Category : ScreensAdmin(
+        route = "category_screen",
+        title = R.string.category_description,
+        icon = R.drawable.ic_category
+    )
 }

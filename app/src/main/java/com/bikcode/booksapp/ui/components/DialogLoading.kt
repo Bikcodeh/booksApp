@@ -18,7 +18,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 @Composable
-fun DialogLoading() {
+fun DialogLoading(
+    modifier: Modifier = Modifier
+) {
     var show by rememberSaveable { mutableStateOf(true) }
     Dialog(
         onDismissRequest = { show = false },
@@ -26,7 +28,7 @@ fun DialogLoading() {
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
+            modifier = modifier
                 .size(100.dp)
                 .background(Color.White, shape = RoundedCornerShape(8.dp))
         ) {

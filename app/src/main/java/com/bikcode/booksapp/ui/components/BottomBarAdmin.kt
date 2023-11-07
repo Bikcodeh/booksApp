@@ -19,7 +19,12 @@ import com.bikcode.booksapp.navigation.ScreensAdmin
 
 @Composable
 fun BottomBarAdmin(navController: NavHostController) {
-    val screens = listOf(ScreensAdmin.Dashboard, ScreensAdmin.Account)
+    val screens = listOf(
+        ScreensAdmin.Dashboard,
+        ScreensAdmin.Upload,
+        ScreensAdmin.Category,
+        ScreensAdmin.Account
+    )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 

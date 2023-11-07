@@ -29,3 +29,7 @@ val ColorScheme.formFieldColorUnfocused
 val ColorScheme.formFieldColorFocused
     @Composable
     get() = if (!isSystemInDarkTheme()) Color.White else GrayLight
+
+val ColorScheme.iconTintColor
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Color.Black else GrayLight

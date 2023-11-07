@@ -35,4 +35,7 @@
     <string name="password_not_match">Password not match</string>
     <string name="password_required">Password required</string>
     <string name="error">Error</string>
+    <string name="upload_description">Upload</string>
+    <string name="category_description">Categories</string>
+    <string name="search_placeholder">Search</string>
 </resources>
