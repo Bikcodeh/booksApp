@@ -1,33 +1,30 @@
 package com.bikcode.booksapp.ui.screens.signup
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpEvent
+import com.bikcode.booksapp.ui.screens.signup.viewmodel.SignUpViewModel
 
 @Composable
-fun SignUpScreen(onBack: () -> Unit, navigate: (String) -> Unit) {
-    SignUpContent(onBack, navigate = navigate)
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES,
-    showSystemUi = true,
-    device = "spec:width=360dp,height=640dp,dpi=160"
-)
-@Composable
-fun SignUpScreenPreviewDark() {
-    SignUpScreen(onBack = {}, navigate = {})
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_NO,
-    showSystemUi = true,
-    device = "spec:width=360dp,height=640dp,dpi=160"
-)
-@Composable
-fun SignUpScreenPreview() {
-    SignUpScreen(onBack = {}, navigate = {})
+fun SignUpScreen(
+    onBack: () -> Unit,
+    navigate: (String) -> Unit,
+    signUpViewModel: SignUpViewModel = hiltViewModel()
+) {
+    SignUpContent(
+        onBack = onBack,
+        navigate = navigate,
+        signUpUiState = signUpViewModel.viewState,
+        onNameChange = { signUpViewModel.sendEvent { SignUpEvent.OnNameChange(it) } },
+        onEmailChange = { signUpViewModel.sendEvent { SignUpEvent.OnEmailChange(it) } },
+        onPasswordChange = { signUpViewModel.sendEvent { SignUpEvent.OnPasswordChange(it) } },
+        onConfirmPasswordChange = {
+            signUpViewModel.sendEvent {
+                SignUpEvent.OnConfirmPasswordChange(
+                    it
+                )
+            }
+        },
+        onSignUp = { signUpViewModel.sendEvent { SignUpEvent.DoSignUp } }
+    )
 }

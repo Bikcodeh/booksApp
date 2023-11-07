@@ -5,10 +5,7 @@ import com.bikcode.booksapp.ui.utils.ViewEvent
 import com.bikcode.booksapp.ui.utils.ViewSideEffect
 import com.bikcode.booksapp.ui.utils.ViewState
 
-sealed class SignUpEffect: ViewSideEffect {
-    data class Loading(val show: Boolean = false): SignUpEffect()
-    object GoHome: SignUpEffect()
-}
+sealed class SignUpEffect: ViewSideEffect {}
 
 sealed class SignUpEvent: ViewEvent {
     object DoSignUp: SignUpEvent()
@@ -26,5 +23,7 @@ data class SignUpUiState(
     val nameError: UiText? = null,
     val emailError: UiText? = null,
     val passwordError: UiText? = null,
-    val confirmPasswordError: UiText? = null
+    val confirmPasswordError: UiText? = null,
+    val showLoading: Boolean = false,
+    val goHome: Boolean = false
 ): ViewState

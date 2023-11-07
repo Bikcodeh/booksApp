@@ -11,9 +11,6 @@ import com.bikcode.booksapp.domain.usecase.validation.ValidateEmailUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidateEmptyFieldUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidatePasswordUseCase
 import com.bikcode.booksapp.ui.utils.MVIViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -89,7 +86,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun signUp() {
         if (validateEmail() && validatePassword() && validateName()) {
-            setEffect { SignUpEffect.Loading(show = true) }
+            viewState = viewState.copy(showLoading = true)
             val data = hashMapOf<String, Any>().apply {
                 put("name", viewState.name)
                 put("email", viewState.email)
@@ -99,11 +96,10 @@ class SignUpViewModel @Inject constructor(
             doSignUpUseCase.invoke(
                 data = data,
                 onSuccess = {
-                    setEffect { SignUpEffect.Loading(show = false) }
-                    setEffect { SignUpEffect.GoHome }
+                    viewState = viewState.copy(showLoading = false, goHome = true)
                 },
                 onError = {
-                    setEffect { SignUpEffect.Loading(show = false) }
+                    viewState = viewState.copy(showLoading = false)
                 }
             )
         }

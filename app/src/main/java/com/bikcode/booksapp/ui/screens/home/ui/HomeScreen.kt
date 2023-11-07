@@ -13,9 +13,7 @@ fun HomeScreen(
     onLogOut: () -> Unit,
 ) {
     val navController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomBarAdmin(navController) }
-    ) {
+    Scaffold(bottomBar = { BottomBarAdmin(navController) }) {
         SetupBottomNavGraphAdmin(navController, onLogOut)
     }
 }

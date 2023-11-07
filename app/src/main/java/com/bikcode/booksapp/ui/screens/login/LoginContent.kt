@@ -123,7 +123,7 @@ fun LoginContent(
             .constrainAs(signup) {
                 linkTo(form.bottom, parent.bottom, bias = 1f)
             },
-            onClick = { }
+            onClick = { navigate(Screens.SignUp.route) }
         ) {
             Text(
                 text = stringResource(id = R.string.signup_link),
