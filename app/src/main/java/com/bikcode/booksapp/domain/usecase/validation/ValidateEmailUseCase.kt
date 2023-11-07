@@ -9,21 +9,21 @@ import javax.inject.Inject
 
 class ValidateEmailUseCase @Inject constructor() : BaseValidationUseCase<String, ValidationResult> {
     override fun execute(input: String, errorString: Int?): ValidationResult {
-        if (input.isBlank()) {
-            return ValidationResult(
+        return when {
+            input.isBlank() -> ValidationResult(
                 successful = false,
                 errorMessage = UiText.StringResource(resId = R.string.strTheEmailCanNotBeBlank)
             )
-        }
-        if (!isEmailValid(input)) {
-            return ValidationResult(
+
+            !isEmailValid(input) -> ValidationResult(
                 successful = false,
                 errorMessage = UiText.StringResource(resId = R.string.strThatsNotAValidEmail)
             )
+
+            else -> ValidationResult(
+                successful = true,
+                errorMessage = null
+            )
         }
-        return ValidationResult(
-            successful = true,
-            errorMessage = null
-        )
     }
 }

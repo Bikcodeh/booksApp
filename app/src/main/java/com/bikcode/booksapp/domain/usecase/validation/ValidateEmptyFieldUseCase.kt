@@ -9,15 +9,16 @@ import javax.inject.Inject
 class ValidateEmptyFieldUseCase @Inject constructor() :
     BaseValidationUseCase<String, ValidationResult> {
     override fun execute(input: String, errorString: Int?): ValidationResult {
-        if (input.isEmpty()) {
-            return ValidationResult(
+        return if (input.isEmpty()) {
+            ValidationResult(
                 successful = false,
                 errorMessage = UiText.StringResource(errorString ?: R.string.error)
             )
+        } else {
+            ValidationResult(
+                successful = true,
+                errorMessage = null
+            )
         }
-        return ValidationResult(
-            successful = true,
-            errorMessage = null
-        )
     }
 }
