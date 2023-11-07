@@ -38,4 +38,5 @@
     <string name="upload_description">Upload</string>
     <string name="category_description">Categories</string>
     <string name="search_placeholder">Search</string>
+    <string name="title_activity_root">RootActivity</string>
 </resources>

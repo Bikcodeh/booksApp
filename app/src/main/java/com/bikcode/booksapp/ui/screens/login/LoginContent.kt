@@ -39,11 +39,12 @@ fun LoginContent(
     loginUiState: LoginUiState,
     onLogin: () -> Unit,
     onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit
+    onPasswordChange: (String) -> Unit,
+    goHome: () -> Unit
 ) {
     LaunchedEffect(key1 = loginUiState.goToHome) {
         if (loginUiState.goToHome) {
-            navigate(Screens.Home.route)
+            goHome()
         }
     }
 
@@ -143,6 +144,7 @@ private fun LoginContentPreview() {
         loginUiState = LoginUiState(),
         onEmailChange = {},
         onPasswordChange = {},
-        onLogin = {}
+        onLogin = {},
+        goHome = {}
     )
 }

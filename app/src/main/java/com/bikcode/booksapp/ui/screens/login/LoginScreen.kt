@@ -6,12 +6,17 @@ import com.bikcode.booksapp.ui.screens.login.viewmodel.LoginEvent
 import com.bikcode.booksapp.ui.screens.login.viewmodel.LoginViewModel
 
 @Composable
-fun LoginScreen(navigate: (String) -> Unit, loginViewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(
+    navigate: (String) -> Unit,
+    goHome: () -> Unit,
+    loginViewModel: LoginViewModel = hiltViewModel()
+) {
     LoginContent(
         navigate = navigate,
         loginUiState = loginViewModel.viewState,
         onLogin = { loginViewModel.sendEvent { LoginEvent.DoLogin } },
         onEmailChange = { loginViewModel.sendEvent { LoginEvent.OnEmailChange(it) } },
-        onPasswordChange = { loginViewModel.sendEvent { LoginEvent.OnPasswordChange(it) } }
+        onPasswordChange = { loginViewModel.sendEvent { LoginEvent.OnPasswordChange(it) } },
+        goHome = goHome
     )
 }

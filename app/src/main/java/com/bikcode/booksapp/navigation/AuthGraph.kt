@@ -10,7 +10,10 @@ import com.bikcode.booksapp.ui.screens.login.LoginScreen
 import com.bikcode.booksapp.ui.screens.signup.SignUpScreen
 
 const val GRAPH_AUTH = "AUTH"
-fun NavGraphBuilder.authGraph(navController: NavHostController) {
+fun NavGraphBuilder.authGraph(
+    navController: NavHostController,
+    goHome: () -> Unit
+) {
     navigation(startDestination = Screens.Login.route, route = GRAPH_AUTH) {
         composable(
             route = Screens.Login.route,
@@ -39,7 +42,7 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 )
             }
         ) {
-            LoginScreen(navigate = { navController.navigate(it) })
+            LoginScreen(navigate = { navController.navigate(it) }, goHome = goHome)
         }
 
         composable(
