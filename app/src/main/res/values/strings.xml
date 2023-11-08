@@ -38,4 +38,8 @@
     <string name="upload_description">Upload</string>
     <string name="category_description">Categories</string>
     <string name="search_placeholder">Search</string>
+    <string name="delete_category_title">Delete category</string>
+    <string name="confirm_delete_category_text">Are you sure you want to delete %1$s?</string>
+    <string name="confirm_delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

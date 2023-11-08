@@ -2,10 +2,7 @@ package com.bikcode.booksapp.ui.screens.signup.viewmodel
 
 import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.ui.utils.ViewEvent
-import com.bikcode.booksapp.ui.utils.ViewSideEffect
 import com.bikcode.booksapp.ui.utils.ViewState
-
-sealed class SignUpEffect: ViewSideEffect {}
 
 sealed class SignUpEvent: ViewEvent {
     object DoSignUp: SignUpEvent()

@@ -58,7 +58,7 @@ fun CategoryBook(
                 )
             }
             IconButton(
-                onClick = onEdit,
+                onClick = { onDelete() },
                 modifier = Modifier.constrainAs(delete) {
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)

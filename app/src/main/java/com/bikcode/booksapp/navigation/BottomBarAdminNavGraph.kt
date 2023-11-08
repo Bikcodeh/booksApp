@@ -2,6 +2,7 @@ package com.bikcode.booksapp.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,7 +15,8 @@ import com.bikcode.booksapp.ui.screens.upload.UploadScreen
 @Composable
 fun SetupBottomNavGraphAdmin(
     navController: NavHostController,
-    onLogOut: () -> Unit
+    onLogOut: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     NavHost(
         navController = navController,
@@ -47,7 +49,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            DashboardScreen(onLogOut)
+            DashboardScreen(onLogOut, paddingValues)
         }
         composable(
             route = ScreensAdmin.Account.route,
@@ -76,7 +78,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            AccountScreen()
+            AccountScreen(paddingValues)
         }
 
         composable(
@@ -106,7 +108,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            UploadScreen()
+            UploadScreen(paddingValues)
         }
 
         composable(
@@ -136,7 +138,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-           CategoryScreen()
+           CategoryScreen(paddingValues)
         }
     }
 }

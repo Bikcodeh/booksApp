@@ -11,13 +11,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+    getAllCategoriesUseCase: GetAllCategoriesUseCase,
     dispatcherProvider: DispatcherProvider
-) : MVIViewModel<CategoryEffect, CategoryEvent>(dispatcherProvider) {
+) : MVIViewModel<CategoryEvent>(dispatcherProvider) {
 
     var viewState by mutableStateOf(CategoryUiState())
     override fun handleEvents(event: CategoryEvent) {
-
+        viewState = when (event) {
+            is CategoryEvent.OnDeleteCategory -> viewState.copy(showDeleteDialog = true)
+            CategoryEvent.OnDeleteCategoryDismiss -> viewState.copy(showDeleteDialog = false)
+        }
     }
 
     init {

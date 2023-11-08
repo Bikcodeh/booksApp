@@ -10,8 +10,8 @@ fun LoginScreen(navigate: (String) -> Unit, loginViewModel: LoginViewModel = hil
     LoginContent(
         navigate = navigate,
         loginUiState = loginViewModel.viewState,
-        onLogin = { loginViewModel.sendEvent { LoginEvent.DoLogin } },
-        onEmailChange = { loginViewModel.sendEvent { LoginEvent.OnEmailChange(it) } },
-        onPasswordChange = { loginViewModel.sendEvent { LoginEvent.OnPasswordChange(it) } }
+        onLogin = { loginViewModel.handleEvents(LoginEvent.DoLogin) },
+        onEmailChange = { loginViewModel.handleEvents(LoginEvent.OnEmailChange(it)) },
+        onPasswordChange = { loginViewModel.handleEvents(LoginEvent.OnPasswordChange(it)) }
     )
 }

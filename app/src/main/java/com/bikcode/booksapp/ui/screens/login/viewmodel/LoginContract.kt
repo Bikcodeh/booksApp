@@ -5,8 +5,6 @@ import com.bikcode.booksapp.ui.utils.ViewEvent
 import com.bikcode.booksapp.ui.utils.ViewSideEffect
 import com.bikcode.booksapp.ui.utils.ViewState
 
-sealed class LoginEffect : ViewSideEffect {}
-
 sealed class LoginEvent : ViewEvent {
     data class OnEmailChange(val text: String) : LoginEvent()
     data class OnPasswordChange(val text: String) : LoginEvent()

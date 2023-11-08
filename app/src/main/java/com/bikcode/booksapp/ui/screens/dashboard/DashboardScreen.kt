@@ -2,6 +2,7 @@ package com.bikcode.booksapp.ui.screens.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -12,7 +13,8 @@ import com.bikcode.booksapp.ui.components.CategoryBook
 
 @Composable
 fun DashboardScreen(
-    onLogOut: () -> Unit
+    onLogOut: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),

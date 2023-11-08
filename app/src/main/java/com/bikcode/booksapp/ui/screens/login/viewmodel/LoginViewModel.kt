@@ -18,7 +18,7 @@ class LoginViewModel @Inject constructor(
     private val validateEmptyFieldUseCase: ValidateEmptyFieldUseCase,
     private val doLoginUseCase: DoLoginUseCase,
     dispatcher: DispatcherProvider
-) : MVIViewModel<LoginEffect, LoginEvent>(dispatcher) {
+) : MVIViewModel<LoginEvent>(dispatcher) {
 
     var viewState by mutableStateOf(LoginUiState())
     override fun handleEvents(event: LoginEvent) {

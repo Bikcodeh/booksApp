@@ -15,16 +15,14 @@ fun SignUpScreen(
         onBack = onBack,
         navigate = navigate,
         signUpUiState = signUpViewModel.viewState,
-        onNameChange = { signUpViewModel.sendEvent { SignUpEvent.OnNameChange(it) } },
-        onEmailChange = { signUpViewModel.sendEvent { SignUpEvent.OnEmailChange(it) } },
-        onPasswordChange = { signUpViewModel.sendEvent { SignUpEvent.OnPasswordChange(it) } },
+        onNameChange = { signUpViewModel.handleEvents(SignUpEvent.OnNameChange(it)) },
+        onEmailChange = { signUpViewModel.handleEvents(SignUpEvent.OnEmailChange(it)) },
+        onPasswordChange = { signUpViewModel.handleEvents(SignUpEvent.OnPasswordChange(it)) },
         onConfirmPasswordChange = {
-            signUpViewModel.sendEvent {
-                SignUpEvent.OnConfirmPasswordChange(
-                    it
-                )
-            }
+            signUpViewModel.handleEvents(
+                SignUpEvent.OnConfirmPasswordChange(it)
+            )
         },
-        onSignUp = { signUpViewModel.sendEvent { SignUpEvent.DoSignUp } }
+        onSignUp = { signUpViewModel.handleEvents(SignUpEvent.DoSignUp) }
     )
 }

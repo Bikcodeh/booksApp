@@ -21,7 +21,7 @@ class SignUpViewModel @Inject constructor(
     private val validatePasswordUseCase: ValidatePasswordUseCase,
     private val doSignUpUseCase: DoSignUpUseCase,
     dispatcher: DispatcherProvider
-) : MVIViewModel<SignUpEffect, SignUpEvent>(dispatcher) {
+) : MVIViewModel<SignUpEvent>(dispatcher) {
 
     var viewState by mutableStateOf(SignUpUiState())
 
