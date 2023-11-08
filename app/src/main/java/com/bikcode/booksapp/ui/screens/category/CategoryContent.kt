@@ -25,24 +25,27 @@ fun CategoryContent(
     uiState: CategoryUiState
 ) {
     val localFocusManager = LocalFocusManager.current
-    if (uiState.loading) Loading()
-    LazyColumn(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
-        .pointerInput(Unit) {
-            detectTapGestures(onTap = {
-                localFocusManager.clearFocus()
-            })
-        }) {
-        stickyHeader { CategorySearch(modifier = Modifier.padding(top = 8.dp)) }
-        item { Spacer(modifier = Modifier.height(16.dp)) }
-        items(uiState.categories, key = { it.description }) {
-            CategoryBook(
-                modifier = Modifier.padding(vertical = 4.dp),
-                onEdit = {},
-                onDelete = { },
-                textValue = it.description
-            )
+    if (uiState.loading) {
+        Loading()
+    } else {
+        LazyColumn(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    localFocusManager.clearFocus()
+                })
+            }) {
+            stickyHeader { CategorySearch(modifier = Modifier.padding(top = 8.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
+            items(uiState.categories, key = { it.description }) {
+                CategoryBook(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    onEdit = {},
+                    onDelete = { },
+                    textValue = it.description
+                )
+            }
         }
     }
 }
