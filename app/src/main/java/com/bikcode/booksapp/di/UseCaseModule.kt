@@ -5,6 +5,7 @@ import com.bikcode.booksapp.domain.repository.CategoryRepository
 import com.bikcode.booksapp.domain.usecase.category.GetAllCategoriesUseCase
 import com.bikcode.booksapp.domain.usecase.auth.DoSignUpUseCase
 import com.bikcode.booksapp.domain.usecase.category.AddCategoryUseCase
+import com.bikcode.booksapp.domain.usecase.category.DeleteCategoryUseCase
 import com.bikcode.booksapp.domain.usecase.category.EditCategoryUseCase
 import dagger.Module
 import dagger.Provides
@@ -35,4 +36,9 @@ object UseCaseModule {
     @ViewModelScoped
     fun providesEditCategoryUseCase(categoryRepository: CategoryRepository): EditCategoryUseCase =
         EditCategoryUseCase(categoryRepository)
+
+    @Provides
+    @ViewModelScoped
+    fun providesDeleteCategoryUseCase(categoryRepository: CategoryRepository): DeleteCategoryUseCase =
+        DeleteCategoryUseCase(categoryRepository)
 }

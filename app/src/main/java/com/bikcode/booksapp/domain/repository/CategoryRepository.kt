@@ -19,4 +19,10 @@ interface CategoryRepository {
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     )
+
+    fun deleteCategory(
+        category: Category,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+    )
 }

@@ -66,6 +66,25 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
             .addOnFailureListener(onError)
     }
 
+    override fun deleteCategory(
+        category: Category,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val db = Firebase.firestore
+        db.collection(CATEGORY_REFERENCE)
+            .whereEqualTo(UID_KEY, category.uid)
+            .get()
+            .addOnSuccessListener {
+                val categoryToDelete = it.documents[0]
+                db.collection(CATEGORY_REFERENCE)
+                    .document(categoryToDelete.id)
+                    .delete()
+                    .addOnSuccessListener { onSuccess() }
+                    .addOnFailureListener(onError)
+            }.addOnFailureListener(onError)
+    }
+
     companion object {
         private const val CATEGORY_REFERENCE = "categories"
         private const val UID_KEY = "uid"

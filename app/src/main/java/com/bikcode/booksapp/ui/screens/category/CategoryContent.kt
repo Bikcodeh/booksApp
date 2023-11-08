@@ -143,7 +143,6 @@ fun CategoryContent(
                             handleOnAddEdit(OnAddEditCategoryEvent.Dialog(true))
                         },
                         onDelete = {
-                            onCategoryChange(it.description)
                             onCategorySelected(it)
                             handleOnDelete(OnDeleteCategoryEvent.Dialog)
                         },
