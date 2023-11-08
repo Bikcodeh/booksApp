@@ -48,4 +48,7 @@
     <string name="add_option">Add</string>
     <string name="edit_category">Edit Category</string>
     <string name="edit_option">Edit</string>
+    <string name="error_add_category">An Error happened while trying to add the category, please try later.</string>
+    <string name="error_edit_category">An Error happened while trying to update the category, please try later.</string>
+    <string name="error_fetching_categories">An Error happened while trying to fetch all the categories, please try later.</string>
 </resources>

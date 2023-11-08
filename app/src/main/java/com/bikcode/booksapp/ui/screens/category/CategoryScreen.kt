@@ -16,6 +16,7 @@ fun CategoryScreen(
         paddingValues = paddingValues,
         handleOnDelete = { categoryViewModel.handleEvents(CategoryEvent.OnDelete(it)) },
         handleOnAddEdit = { categoryViewModel.handleEvents(CategoryEvent.OnAddEdit(it)) },
-        onCategoryChange = { categoryViewModel.handleEvents(CategoryEvent.OnCategoryChange(it)) }
+        onCategoryChange = { categoryViewModel.handleEvents(CategoryEvent.OnCategoryChange(it)) },
+        onCategorySelected = { categoryViewModel.handleEvents(CategoryEvent.OnCategorySelected(it)) }
     )
 }

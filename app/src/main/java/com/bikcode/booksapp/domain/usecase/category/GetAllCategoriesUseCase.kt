@@ -1,4 +1,4 @@
-package com.bikcode.booksapp.domain.usecase
+package com.bikcode.booksapp.domain.usecase.category
 
 import com.bikcode.booksapp.domain.model.Category
 import com.bikcode.booksapp.domain.repository.CategoryRepository

@@ -88,11 +88,11 @@ fun DialogField(
                     end.linkTo(parent.end)
                     top.linkTo(field.bottom, 24.dp)
                 }) {
-                    OutlinedButton(onClick = { onConfirm() }, modifier = Modifier.weight(1f)) {
+                    OutlinedButton(onClick = { onCancel() }, modifier = Modifier.weight(1f)) {
                         Text(text = cancelButtonText, textAlign = TextAlign.Center)
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { onCancel() }, modifier = Modifier.weight(1f)) {
+                    Button(onClick = { onConfirm() }, modifier = Modifier.weight(1f)) {
                         Text(text = confirmButtonText, textAlign = TextAlign.Center)
                     }
                 }

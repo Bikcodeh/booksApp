@@ -16,11 +16,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -41,6 +44,7 @@ import com.bikcode.booksapp.ui.screens.category.components.CategorySearch
 import com.bikcode.booksapp.ui.screens.category.viewmodel.CategoryUiState
 import com.bikcode.booksapp.ui.screens.category.viewmodel.OnAddEditCategoryEvent
 import com.bikcode.booksapp.ui.screens.category.viewmodel.OnDeleteCategoryEvent
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -50,18 +54,26 @@ fun CategoryContent(
     paddingValues: PaddingValues,
     handleOnDelete: (OnDeleteCategoryEvent) -> Unit,
     handleOnAddEdit: (OnAddEditCategoryEvent) -> Unit,
-    onCategoryChange: (String) -> Unit
+    onCategoryChange: (String) -> Unit,
+    onCategorySelected: (Category) -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
     val localFocusManager = LocalFocusManager.current
     val context = LocalContext.current
     var showFab by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = uiState.loading) {
         if (!uiState.loading) showFab = true
     }
+    uiState.error?.let {
+        scope.launch { snackBarHostState.showSnackbar(it.asString(context)) }
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         floatingActionButton = {
             AnimatedVisibility(
                 visible = showFab,
@@ -127,10 +139,12 @@ fun CategoryContent(
                         modifier = Modifier.padding(vertical = 4.dp),
                         onEdit = {
                             onCategoryChange(it.description)
+                            onCategorySelected(it)
                             handleOnAddEdit(OnAddEditCategoryEvent.Dialog(true))
                         },
                         onDelete = {
                             onCategoryChange(it.description)
+                            onCategorySelected(it)
                             handleOnDelete(OnDeleteCategoryEvent.Dialog)
                         },
                         textValue = it.description
@@ -140,6 +154,7 @@ fun CategoryContent(
         }
     }
 }
+
 @Preview
 @Composable
 private fun CategoryContentPreview() {
@@ -148,6 +163,7 @@ private fun CategoryContentPreview() {
         paddingValues = PaddingValues(),
         handleOnAddEdit = {},
         handleOnDelete = {},
-        onCategoryChange = {}
+        onCategoryChange = {},
+        onCategorySelected = {}
     )
 }
