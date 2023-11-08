@@ -1,4 +1,4 @@
-package com.bikcode.booksapp.ui.screens.category.viewmodel
+package com.bikcode.booksapp.ui.screens.category
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -15,7 +15,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.bikcode.booksapp.ui.components.CategoryBook
 import com.bikcode.booksapp.ui.components.DialogLoading
+import com.bikcode.booksapp.ui.components.Loading
 import com.bikcode.booksapp.ui.screens.category.components.CategorySearch
+import com.bikcode.booksapp.ui.screens.category.viewmodel.CategoryUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -23,7 +25,7 @@ fun CategoryContent(
     uiState: CategoryUiState
 ) {
     val localFocusManager = LocalFocusManager.current
-    if (uiState.loading) DialogLoading()
+    if (uiState.loading) Loading()
     LazyColumn(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
