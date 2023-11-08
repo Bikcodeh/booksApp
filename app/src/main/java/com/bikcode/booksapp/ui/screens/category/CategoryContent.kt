@@ -27,6 +27,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bikcode.booksapp.R
@@ -34,9 +35,12 @@ import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.model.Category
 import com.bikcode.booksapp.ui.components.CategoryBook
 import com.bikcode.booksapp.ui.components.DialogConfirm
+import com.bikcode.booksapp.ui.components.DialogField
 import com.bikcode.booksapp.ui.components.Loading
 import com.bikcode.booksapp.ui.screens.category.components.CategorySearch
 import com.bikcode.booksapp.ui.screens.category.viewmodel.CategoryUiState
+import com.bikcode.booksapp.ui.screens.category.viewmodel.OnAddEditCategoryEvent
+import com.bikcode.booksapp.ui.screens.category.viewmodel.OnDeleteCategoryEvent
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -44,13 +48,13 @@ import com.bikcode.booksapp.ui.screens.category.viewmodel.CategoryUiState
 fun CategoryContent(
     uiState: CategoryUiState,
     paddingValues: PaddingValues,
-    onDeleteCategoryClick: () -> Unit,
-    onDeleteDismiss: () -> Unit
+    handleOnDelete: (OnDeleteCategoryEvent) -> Unit,
+    handleOnAddEdit: (OnAddEditCategoryEvent) -> Unit,
+    onCategoryChange: (String) -> Unit
 ) {
     val localFocusManager = LocalFocusManager.current
     val context = LocalContext.current
     var showFab by remember { mutableStateOf(false) }
-    var categorySelected by remember { mutableStateOf<Category?>(null) }
     LaunchedEffect(key1 = uiState.loading) {
         if (!uiState.loading) showFab = true
     }
@@ -64,7 +68,7 @@ fun CategoryContent(
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
-                FloatingActionButton(onClick = {}) {
+                FloatingActionButton(onClick = { handleOnAddEdit(OnAddEditCategoryEvent.Dialog(false)) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add),
                         contentDescription = null
@@ -82,16 +86,30 @@ fun CategoryContent(
                         .asString(context),
                     bodyText = UiText.StringResource(
                         R.string.confirm_delete_category_text,
-                        categorySelected?.description.orEmpty()
+                        uiState.category
                     )
                         .asString(context),
                     confirmButtonText = UiText.StringResource(R.string.confirm_delete)
                         .asString(context),
                     cancelButtonText = UiText.StringResource(R.string.cancel)
                         .asString(context),
-                    onConfirm = { onDeleteDismiss() },
-                    onCancel = { onDeleteDismiss() },
-                    onDismiss = { onDeleteDismiss() }
+                    onConfirm = { handleOnDelete(OnDeleteCategoryEvent.OnConfirm) },
+                    onCancel = { handleOnDelete(OnDeleteCategoryEvent.OnCancel) },
+                    onDismiss = { handleOnDelete(OnDeleteCategoryEvent.OnDismiss) }
+                )
+            }
+            if (uiState.showAddEditDialog) {
+                DialogField(
+                    titleText = stringResource(id = if (uiState.isEditingCategory) R.string.edit_category else R.string.add_category),
+                    formText = uiState.category,
+                    formLabel = null,
+                    formPlaceholder = R.string.category_placeholder,
+                    onTextChange = { onCategoryChange(it) },
+                    confirmButtonText = stringResource(id = if (uiState.isEditingCategory) R.string.edit_option else R.string.add_option),
+                    onConfirm = { handleOnAddEdit(OnAddEditCategoryEvent.OnConfirm) },
+                    onCancel = { handleOnAddEdit(OnAddEditCategoryEvent.OnCancel) },
+                    cancelButtonText = stringResource(id = R.string.cancel),
+                    onDismiss = { handleOnAddEdit(OnAddEditCategoryEvent.OnDismiss) }
                 )
             }
             LazyColumn(modifier = Modifier
@@ -108,11 +126,12 @@ fun CategoryContent(
                     CategoryBook(
                         modifier = Modifier.padding(vertical = 4.dp),
                         onEdit = {
-                            categorySelected = it
+                            onCategoryChange(it.description)
+                            handleOnAddEdit(OnAddEditCategoryEvent.Dialog(true))
                         },
                         onDelete = {
-                            categorySelected = it
-                            onDeleteCategoryClick()
+                            onCategoryChange(it.description)
+                            handleOnDelete(OnDeleteCategoryEvent.Dialog)
                         },
                         textValue = it.description
                     )
@@ -121,19 +140,14 @@ fun CategoryContent(
         }
     }
 }
-
-@Composable
-fun EmptyCategory() {
-
-}
-
 @Preview
 @Composable
 private fun CategoryContentPreview() {
     CategoryContent(
         uiState = CategoryUiState(),
         paddingValues = PaddingValues(),
-        onDeleteCategoryClick = {},
-        onDeleteDismiss = {}
+        handleOnAddEdit = {},
+        handleOnDelete = {},
+        onCategoryChange = {}
     )
 }

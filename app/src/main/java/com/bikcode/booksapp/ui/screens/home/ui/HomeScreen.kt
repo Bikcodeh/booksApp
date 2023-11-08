@@ -16,7 +16,7 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit) {
-        (context as Activity).window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        (context as Activity).window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
     val navController = rememberNavController()
     Scaffold(bottomBar = { BottomBarAdmin(navController) }) {

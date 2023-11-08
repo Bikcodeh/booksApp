@@ -14,7 +14,8 @@ fun CategoryScreen(
     CategoryContent(
         uiState = categoryViewModel.viewState,
         paddingValues = paddingValues,
-        onDeleteCategoryClick = { categoryViewModel.handleEvents(CategoryEvent.OnDeleteCategory)  },
-        onDeleteDismiss = { categoryViewModel.handleEvents(CategoryEvent.OnDeleteCategoryDismiss)  }
+        handleOnDelete = { categoryViewModel.handleEvents(CategoryEvent.OnDelete(it)) },
+        handleOnAddEdit = { categoryViewModel.handleEvents(CategoryEvent.OnAddEdit(it)) },
+        onCategoryChange = { categoryViewModel.handleEvents(CategoryEvent.OnCategoryChange(it)) }
     )
 }

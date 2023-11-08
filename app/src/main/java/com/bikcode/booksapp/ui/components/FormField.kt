@@ -41,7 +41,7 @@ import com.bikcode.booksapp.ui.theme.formTextColor
 @Composable
 fun ColumnScope.FormFieldString(
     modifier: Modifier = Modifier,
-    @StringRes label: Int,
+    @StringRes label: Int? = null,
     @StringRes placeholder: Int,
     formValue: String,
     onChangeValue: (String) -> Unit,
@@ -54,7 +54,12 @@ fun ColumnScope.FormFieldString(
         animationSpec = tween(durationMillis = 400),
         label = label.toString()
     )
-    Text(text = stringResource(id = label), color = MaterialTheme.colorScheme.formTextColor)
+    label?.let {
+        Text(
+            text = stringResource(id = label),
+            color = MaterialTheme.colorScheme.formTextColor
+        )
+    }
     Spacer(modifier = Modifier.height(4.dp))
     Surface(
         shadowElevation = shadowDp,

@@ -17,9 +17,56 @@ class CategoryViewModel @Inject constructor(
 
     var viewState by mutableStateOf(CategoryUiState())
     override fun handleEvents(event: CategoryEvent) {
-        viewState = when (event) {
-            is CategoryEvent.OnDeleteCategory -> viewState.copy(showDeleteDialog = true)
-            CategoryEvent.OnDeleteCategoryDismiss -> viewState.copy(showDeleteDialog = false)
+        when (event) {
+            is CategoryEvent.OnDeleteCategory -> viewState = viewState.copy(showDeleteDialog = true)
+            CategoryEvent.OnDeleteCategoryDismiss -> viewState =
+                viewState.copy(showDeleteDialog = false)
+
+            CategoryEvent.OnAddCategory -> viewState = viewState.copy(showAddEditDialog = true)
+            CategoryEvent.OnAddCategoryDismiss -> viewState =
+                viewState.copy(showAddEditDialog = false)
+
+            is CategoryEvent.OnCategoryChange -> viewState =
+                viewState.copy(category = event.text)
+
+            is CategoryEvent.OnDelete -> handleOnDelete(event.onDeleteEvent)
+            is CategoryEvent.OnAddEdit -> handleOnAddEdit(event.onAddEditCategoryEvent)
+        }
+    }
+
+    private fun handleOnAddEdit(onAddEditCategoryEvent: OnAddEditCategoryEvent) {
+        viewState = when (onAddEditCategoryEvent) {
+            is OnAddEditCategoryEvent.Dialog -> viewState.copy(
+                showAddEditDialog = true,
+                isEditingCategory = onAddEditCategoryEvent.isEdit
+            )
+
+            is OnAddEditCategoryEvent.OnCancel -> viewState.copy(
+                showAddEditDialog = false,
+                isEditingCategory = false,
+                category = ""
+            )
+
+            is OnAddEditCategoryEvent.OnConfirm -> viewState.copy(
+                showAddEditDialog = false,
+                isEditingCategory = false,
+                category = ""
+            )
+
+            is OnAddEditCategoryEvent.OnDismiss -> viewState.copy(
+                showAddEditDialog = false,
+                isEditingCategory = false,
+                category = ""
+            )
+        }
+    }
+
+    private fun handleOnDelete(onDeleteCategoryEvent: OnDeleteCategoryEvent) {
+        viewState = when (onDeleteCategoryEvent) {
+            is OnDeleteCategoryEvent.Dialog -> viewState.copy(showDeleteDialog = true)
+            OnDeleteCategoryEvent.OnCancel -> viewState.copy(showDeleteDialog = false, category = "")
+            OnDeleteCategoryEvent.OnConfirm -> viewState.copy(showDeleteDialog = false, category = "")
+            OnDeleteCategoryEvent.OnDismiss -> viewState.copy(showDeleteDialog = false, category = "")
         }
     }
 
