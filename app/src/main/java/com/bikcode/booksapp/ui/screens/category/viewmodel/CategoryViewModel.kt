@@ -3,8 +3,10 @@ package com.bikcode.booksapp.ui.screens.category.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.core.generic.UiText
+import com.bikcode.booksapp.domain.commons.Result
 import com.bikcode.booksapp.domain.repository.DispatcherProvider
 import com.bikcode.booksapp.domain.usecase.category.AddCategoryUseCase
 import com.bikcode.booksapp.domain.usecase.category.DeleteCategoryUseCase
@@ -12,6 +14,8 @@ import com.bikcode.booksapp.domain.usecase.category.EditCategoryUseCase
 import com.bikcode.booksapp.domain.usecase.category.GetAllCategoriesUseCase
 import com.bikcode.booksapp.ui.utils.MVIViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -159,16 +163,15 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewState = viewState.copy(loading = true)
-        getAllCategoriesUseCase(
-            onError = {
-                viewState = viewState.copy(
+        getAllCategoriesUseCase().onEach { result ->
+            viewState = when (result) {
+                is Result.Error -> viewState.copy(
                     loading = false,
                     error = UiText.StringResource(R.string.error_fetching_categories)
                 )
-            },
-            onSuccess = {
-                viewState = viewState.copy(loading = false, categories = it)
+
+                is Result.Success -> viewState.copy(loading = false, categories = result.data)
             }
-        )
+        }.launchIn(viewModelScope)
     }
 }

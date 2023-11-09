@@ -1,21 +1,24 @@
 package com.bikcode.booksapp.data.repository
 
+import com.bikcode.booksapp.domain.commons.Failure
+import com.bikcode.booksapp.domain.commons.Result
 import com.bikcode.booksapp.domain.model.Category
 import com.bikcode.booksapp.domain.repository.CategoryRepository
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import java.util.UUID
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
-    override fun getAllCategories(
-        onSuccess: (categories: List<Category>) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        Firebase.firestore.collection(CATEGORY_REFERENCE).addSnapshotListener { snapshots, error ->
+    override fun getAllCategories(): Flow<Result<List<Category>>> = callbackFlow {
+        val listener = Firebase.firestore.collection(CATEGORY_REFERENCE)
+            .addSnapshotListener { snapshots, error ->
             if (error != null) {
-                onError(error)
+                trySend(Result.Error(Failure.UnknownException()))
                 return@addSnapshotListener
             }
 
@@ -25,11 +28,12 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
                     val jsonData = Gson().toJson(document.data)
                     data.add(Gson().fromJson(jsonData, Category::class.java))
                 }
-                onSuccess(data)
+                trySend(Result.Success(data))
             } else {
-                onSuccess(emptyList())
+                trySend(Result.Success(emptyList()))
             }
         }
+        awaitClose { listener.remove() }
     }
 
     override fun addCategory(

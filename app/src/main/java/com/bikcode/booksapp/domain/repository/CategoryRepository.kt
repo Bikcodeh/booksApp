@@ -1,12 +1,11 @@
 package com.bikcode.booksapp.domain.repository
 
+import com.bikcode.booksapp.domain.commons.Result
 import com.bikcode.booksapp.domain.model.Category
+import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
-    fun getAllCategories(
-        onSuccess: (categories: List<Category>) -> Unit,
-        onError: (Throwable) -> Unit
-    )
+    fun getAllCategories(): Flow<Result<List<Category>>>
 
     fun addCategory(
         category: String,
