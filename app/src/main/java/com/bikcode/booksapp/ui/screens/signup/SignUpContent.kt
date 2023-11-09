@@ -2,6 +2,7 @@ package com.bikcode.booksapp.ui.screens.signup
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +51,7 @@ fun SignUpContent(
     onConfirmPasswordChange: (String) -> Unit,
     onSignUp: () -> Unit
 ) {
-
+    val localFocusManager = LocalFocusManager.current
     LaunchedEffect(key1 = signUpUiState.goHome) {
         if (signUpUiState.goHome) {
             navigate(Screens.Home.route)
@@ -62,6 +65,11 @@ fun SignUpContent(
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    localFocusManager.clearFocus()
+                })
+            }
     ) {
 
         val (backButton, title, form, image) = createRefs()
