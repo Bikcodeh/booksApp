@@ -17,6 +17,8 @@ fun CategoryScreen(
         handleOnDelete = { categoryViewModel.handleEvents(CategoryEvent.OnDelete(it)) },
         handleOnAddEdit = { categoryViewModel.handleEvents(CategoryEvent.OnAddEdit(it)) },
         onCategoryChange = { categoryViewModel.handleEvents(CategoryEvent.OnCategoryChange(it)) },
-        onCategorySelected = { categoryViewModel.handleEvents(CategoryEvent.OnCategorySelected(it)) }
+        onCategorySelected = { categoryViewModel.handleEvents(CategoryEvent.OnCategorySelected(it)) },
+        onFilter = { categoryViewModel.handleEvents(CategoryEvent.OnFilter(it)) },
+        onClearFilter = { categoryViewModel.handleEvents(CategoryEvent.OnClearFilter) }
     )
 }

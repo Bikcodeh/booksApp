@@ -37,7 +37,23 @@ class CategoryViewModel @Inject constructor(
             is CategoryEvent.OnAddEdit -> handleOnAddEdit(event.onAddEditCategoryEvent)
             is CategoryEvent.OnCategorySelected -> viewState =
                 viewState.copy(categorySelected = event.categorySelected)
+
+            is CategoryEvent.OnFilter -> onFilter(event.text)
+            CategoryEvent.OnClearFilter -> viewState =
+                viewState.copy(filteredCategories = null, textFilterCategories = "")
         }
+    }
+
+    private fun onFilter(text: String) {
+        viewState = viewState.copy(textFilterCategories = text)
+        viewState = viewState.copy(
+            filteredCategories = viewState.categories.filter {
+                it.description.contains(
+                    text,
+                    ignoreCase = true
+                )
+            }
+        )
     }
 
     private fun onEdit() {
@@ -51,7 +67,13 @@ class CategoryViewModel @Inject constructor(
                             loading = false,
                             isEditingCategory = false,
                             category = "",
-                            showAddEditDialog = false
+                            showAddEditDialog = false,
+                            filteredCategories = if (viewState.filteredCategories != null) {
+                                onFilter(viewState.textFilterCategories)
+                                viewState.filteredCategories
+                            } else {
+                                null
+                            }
                         )
                 },
                 onError = {

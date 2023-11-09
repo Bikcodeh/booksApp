@@ -31,7 +31,11 @@ import com.bikcode.booksapp.R
 import com.bikcode.booksapp.ui.theme.iconTintColor
 
 @Composable
-fun CategorySearch(modifier: Modifier = Modifier) {
+fun CategorySearch(
+    modifier: Modifier = Modifier,
+    onTextChange: (String) -> Unit,
+    onClearFilter: () -> Unit
+) {
     var showArrowBack by remember { mutableStateOf(false) }
     var showClearText by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
@@ -49,19 +53,23 @@ fun CategorySearch(modifier: Modifier = Modifier) {
         ) {
             val (leading, field, trailing) = createRefs()
             IconButton(
-                onClick = { localFocusManager.clearFocus() },
+                onClick = {
+                    localFocusManager.clearFocus()
+                    if (text.isNotEmpty()) text = ""
+                    onClearFilter()
+                },
                 modifier = Modifier
                     .constrainAs(leading) {
                         start.linkTo(parent.start)
                         linkTo(parent.top, parent.bottom)
                     },
-                enabled = showArrowBack,
+                enabled = showArrowBack || text.isNotEmpty(),
                 colors = IconButtonDefaults.iconButtonColors(
                     disabledContentColor = MaterialTheme.colorScheme.iconTintColor
                 )
             ) {
                 Icon(
-                    painter = painterResource(id = if (showArrowBack) R.drawable.ic_arrow_back else R.drawable.ic_search),
+                    painter = painterResource(id = if (showArrowBack || text.isNotEmpty()) R.drawable.ic_arrow_back else R.drawable.ic_search),
                     contentDescription = null
                 )
             }
@@ -84,8 +92,11 @@ fun CategorySearch(modifier: Modifier = Modifier) {
                 value = text,
                 onValueChange = {
                     text = it
+                    onTextChange(it)
                     if (text.isNotEmpty()) {
                         showClearText = true
+                    } else {
+                        onClearFilter()
                     }
                 },
                 decorationBox = { innerTextField ->
@@ -95,6 +106,8 @@ fun CategorySearch(modifier: Modifier = Modifier) {
                             text = stringResource(id = R.string.search_placeholder),
                             color = Color.Gray
                         )
+                    } else {
+                        showClearText = true
                     }
                     innerTextField.invoke()
                 },
@@ -106,13 +119,14 @@ fun CategorySearch(modifier: Modifier = Modifier) {
                     onClick = {
                         text = ""
                         showClearText = false
+                        onClearFilter()
                     },
                     modifier = Modifier
                         .constrainAs(trailing) {
                             end.linkTo(parent.end)
                             linkTo(parent.top, parent.bottom)
                         },
-                    enabled = showArrowBack,
+                    enabled = showArrowBack || text.isNotEmpty(),
                     colors = IconButtonDefaults.iconButtonColors(
                         disabledContentColor = MaterialTheme.colorScheme.iconTintColor
                     )
@@ -130,5 +144,5 @@ fun CategorySearch(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun CategorySearchPreview() {
-    CategorySearch()
+    CategorySearch(onClearFilter = {}, onTextChange = {})
 }

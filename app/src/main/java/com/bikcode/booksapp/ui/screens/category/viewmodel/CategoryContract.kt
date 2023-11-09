@@ -11,6 +11,8 @@ sealed class CategoryEvent: ViewEvent {
     data class OnCategoryChange(val text: String): CategoryEvent()
     data class OnDelete(val onDeleteEvent: OnDeleteCategoryEvent): CategoryEvent()
     data class OnAddEdit(val onAddEditCategoryEvent: OnAddEditCategoryEvent): CategoryEvent()
+    data class OnFilter(val text: String): CategoryEvent()
+    object OnClearFilter: CategoryEvent()
 }
 sealed class OnDeleteCategoryEvent {
     object Dialog: OnDeleteCategoryEvent()
@@ -35,5 +37,7 @@ data class CategoryUiState(
     val categorySelected: Category? = null,
     val showDeleteDialog: Boolean = false,
     val showAddEditDialog: Boolean = false,
-    val isEditingCategory: Boolean = false
+    val isEditingCategory: Boolean = false,
+    val textFilterCategories: String = "",
+    val filteredCategories: List<Category>? = null
 ): ViewState

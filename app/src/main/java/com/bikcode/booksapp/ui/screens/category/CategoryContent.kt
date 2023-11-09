@@ -56,6 +56,8 @@ fun CategoryContent(
     handleOnAddEdit: (OnAddEditCategoryEvent) -> Unit,
     onCategoryChange: (String) -> Unit,
     onCategorySelected: (Category) -> Unit,
+    onFilter: (String) -> Unit,
+    onClearFilter: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -132,9 +134,18 @@ fun CategoryContent(
                         localFocusManager.clearFocus()
                     })
                 }) {
-                stickyHeader { CategorySearch(modifier = Modifier.padding(top = 8.dp)) }
+                stickyHeader {
+                    CategorySearch(
+                        modifier = Modifier.padding(top = 8.dp),
+                        onTextChange = onFilter,
+                        onClearFilter = onClearFilter
+                    )
+                }
                 item { Spacer(modifier = Modifier.height(16.dp)) }
-                items(uiState.categories, key = { it.description }) {
+                items(
+                    items = uiState.filteredCategories ?: uiState.categories,
+                    key = { it.description }
+                ) {
                     CategoryBook(
                         modifier = Modifier.padding(vertical = 4.dp),
                         onEdit = {
@@ -163,6 +174,8 @@ private fun CategoryContentPreview() {
         handleOnAddEdit = {},
         handleOnDelete = {},
         onCategoryChange = {},
-        onCategorySelected = {}
+        onCategorySelected = {},
+        onClearFilter = {},
+        onFilter = {}
     )
 }
