@@ -4,6 +4,7 @@ import com.bikcode.booksapp.domain.commons.Failure
 import com.bikcode.booksapp.domain.commons.Result
 import com.bikcode.booksapp.domain.model.Category
 import com.bikcode.booksapp.domain.repository.CategoryRepository
+import com.bikcode.booksapp.domain.repository.DispatcherProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -14,7 +15,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import java.util.UUID
 import javax.inject.Inject
 
-class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
+class CategoryRepositoryImpl @Inject constructor(
+    private val dispatcherProvider: DispatcherProvider
+) : CategoryRepository {
 
     private val db: FirebaseFirestore by lazy { Firebase.firestore }
     override fun getAllCategories(): Flow<Result<List<Category>>> = callbackFlow {
@@ -39,7 +42,7 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
         awaitClose { listener.remove() }
     }
 
-    override fun addCategory(
+    override suspend fun addCategory(
         category: String,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
@@ -53,7 +56,7 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
             .addOnFailureListener(onError)
     }
 
-    override fun editCategory(
+    override suspend fun editCategory(
         category: Category,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
@@ -72,7 +75,7 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
             .addOnFailureListener(onError)
     }
 
-    override fun deleteCategory(
+    override suspend fun deleteCategory(
         category: Category,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit

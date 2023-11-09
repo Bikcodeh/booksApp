@@ -8,8 +8,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-abstract class MVIViewModel<Event : ViewEvent>(
-    private val dispatcher: DispatcherProvider
-) : ViewModel() {
+abstract class MVIViewModel<Event : ViewEvent> : ViewModel() {
     abstract fun handleEvents(event: Event)
 }

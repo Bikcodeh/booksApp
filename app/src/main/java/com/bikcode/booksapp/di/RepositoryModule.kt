@@ -4,6 +4,7 @@ import com.bikcode.booksapp.data.repository.AuthRepositoryImpl
 import com.bikcode.booksapp.data.repository.CategoryRepositoryImpl
 import com.bikcode.booksapp.domain.repository.AuthRepository
 import com.bikcode.booksapp.domain.repository.CategoryRepository
+import com.bikcode.booksapp.domain.repository.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +17,12 @@ internal object RepositoryModule {
 
     @ViewModelScoped
     @Provides
-    fun providesAuthRepository(): AuthRepository = AuthRepositoryImpl()
+    fun providesAuthRepository(dispatcherProvider: DispatcherProvider): AuthRepository =
+        AuthRepositoryImpl(dispatcherProvider)
 
 
     @ViewModelScoped
     @Provides
-    fun providesCategoryRepository(): CategoryRepository = CategoryRepositoryImpl()
+    fun providesCategoryRepository(dispatcherProvider: DispatcherProvider): CategoryRepository =
+        CategoryRepositoryImpl(dispatcherProvider)
 }

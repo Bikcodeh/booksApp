@@ -6,7 +6,7 @@ import javax.inject.Inject
 class AddCategoryUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) {
-    operator fun invoke(
+    suspend operator fun invoke(
         description: String,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit

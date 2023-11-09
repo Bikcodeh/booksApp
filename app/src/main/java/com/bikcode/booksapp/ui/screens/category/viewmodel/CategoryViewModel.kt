@@ -16,6 +16,7 @@ import com.bikcode.booksapp.ui.utils.MVIViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,8 +25,8 @@ class CategoryViewModel @Inject constructor(
     private val addCategoryUseCase: AddCategoryUseCase,
     private val editCategoryUseCase: EditCategoryUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
-    dispatcherProvider: DispatcherProvider
-) : MVIViewModel<CategoryEvent>(dispatcherProvider) {
+    private val dispatcherProvider: DispatcherProvider
+) : MVIViewModel<CategoryEvent>() {
 
     var viewState by mutableStateOf(CategoryUiState())
     override fun handleEvents(event: CategoryEvent) {
@@ -58,8 +59,41 @@ class CategoryViewModel @Inject constructor(
 
     private fun onEdit() {
         viewState.categorySelected?.let {
-            editCategoryUseCase(
-                category = it.copy(description = viewState.category),
+            viewModelScope.launch(dispatcherProvider.io) {
+                editCategoryUseCase(
+                    category = it.copy(description = viewState.category),
+                    onSuccess = {
+                        viewState =
+                            viewState.copy(
+                                error = null,
+                                loading = false,
+                                isEditingCategory = false,
+                                category = "",
+                                showAddEditDialog = false,
+                                filteredCategories = if (viewState.filteredCategories != null) {
+                                    onFilter(viewState.textFilterCategories)
+                                    viewState.filteredCategories
+                                } else {
+                                    null
+                                }
+                            )
+                    },
+                    onError = {
+                        viewState = viewState.copy(
+                            error = UiText.StringResource(
+                                R.string.error_edit_category
+                            ), loading = false
+                        )
+                    }
+                )
+            }
+        }
+    }
+
+    private fun onAdd() {
+        viewModelScope.launch(dispatcherProvider.io) {
+            addCategoryUseCase(
+                description = viewState.category,
                 onSuccess = {
                     viewState =
                         viewState.copy(
@@ -67,73 +101,46 @@ class CategoryViewModel @Inject constructor(
                             loading = false,
                             isEditingCategory = false,
                             category = "",
-                            showAddEditDialog = false,
-                            filteredCategories = if (viewState.filteredCategories != null) {
-                                onFilter(viewState.textFilterCategories)
-                                viewState.filteredCategories
-                            } else {
-                                null
-                            }
+                            showAddEditDialog = false
                         )
                 },
                 onError = {
                     viewState = viewState.copy(
                         error = UiText.StringResource(
                             R.string.error_edit_category
-                        ), loading = false
+                        ),
+                        loading = false
                     )
                 }
             )
         }
     }
 
-    private fun onAdd() {
-        addCategoryUseCase(
-            description = viewState.category,
-            onSuccess = {
-                viewState =
-                    viewState.copy(
-                        error = null,
-                        loading = false,
-                        isEditingCategory = false,
-                        category = "",
-                        showAddEditDialog = false
-                    )
-            },
-            onError = {
-                viewState = viewState.copy(
-                    error = UiText.StringResource(
-                        R.string.error_edit_category
-                    ),
-                    loading = false
-                )
-            }
-        )
-    }
-
     private fun onDelete() {
         viewState.categorySelected?.let {
-            deleteCategoryUseCase.invoke(
-                it,
-                onSuccess = {
-                    viewState =
-                        viewState.copy(
-                            error = null,
-                            loading = false,
-                            isEditingCategory = false,
-                            category = "",
-                            showAddEditDialog = false,
-                            categorySelected = null
+            viewModelScope.launch(dispatcherProvider.io) {
+                deleteCategoryUseCase.invoke(
+                    it,
+                    onSuccess = {
+                        viewState =
+                            viewState.copy(
+                                error = null,
+                                loading = false,
+                                isEditingCategory = false,
+                                category = "",
+                                showAddEditDialog = false,
+                                categorySelected = null
+                            )
+                    },
+                    onError = {
+                        viewState = viewState.copy(
+                            error = UiText.StringResource(
+                                R.string.error_delete_category
+                            ), loading = false
                         )
-                },
-                onError = {
-                    viewState = viewState.copy(
-                        error = UiText.StringResource(
-                            R.string.error_delete_category
-                        ), loading = false
-                    )
-                }
-            )
+                    }
+                )
+            }
         }
     }
 
@@ -185,6 +192,7 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewState = viewState.copy(loading = true)
+        viewModelScope
         getAllCategoriesUseCase().onEach { result ->
             viewState = when (result) {
                 is Result.Error -> viewState.copy(

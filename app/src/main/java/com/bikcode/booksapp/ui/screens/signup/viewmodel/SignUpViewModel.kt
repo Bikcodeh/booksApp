@@ -3,6 +3,7 @@ package com.bikcode.booksapp.ui.screens.signup.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.repository.DispatcherProvider
@@ -12,6 +13,7 @@ import com.bikcode.booksapp.domain.usecase.validation.ValidateEmptyFieldUseCase
 import com.bikcode.booksapp.domain.usecase.validation.ValidatePasswordUseCase
 import com.bikcode.booksapp.ui.utils.MVIViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,8 +22,8 @@ class SignUpViewModel @Inject constructor(
     private val validateEmptyFieldUseCase: ValidateEmptyFieldUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
     private val doSignUpUseCase: DoSignUpUseCase,
-    dispatcher: DispatcherProvider
-) : MVIViewModel<SignUpEvent>(dispatcher) {
+    private val dispatcher: DispatcherProvider
+) : MVIViewModel<SignUpEvent>() {
 
     var viewState by mutableStateOf(SignUpUiState())
 
@@ -93,15 +95,17 @@ class SignUpViewModel @Inject constructor(
                 put("password", viewState.password)
                 put("roleId", "Lwi3O8OEYk70sxSM1r0r")
             }
-            doSignUpUseCase.invoke(
-                data = data,
-                onSuccess = {
-                    viewState = viewState.copy(showLoading = false, goHome = true)
-                },
-                onError = {
-                    viewState = viewState.copy(showLoading = false)
-                }
-            )
+            viewModelScope.launch(dispatcher.io) {
+                doSignUpUseCase.invoke(
+                    data = data,
+                    onSuccess = {
+                        viewState = viewState.copy(showLoading = false, goHome = true)
+                    },
+                    onError = {
+                        viewState = viewState.copy(showLoading = false)
+                    }
+                )
+            }
         }
     }
 }

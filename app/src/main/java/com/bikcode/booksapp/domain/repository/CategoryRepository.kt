@@ -7,19 +7,19 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryRepository {
     fun getAllCategories(): Flow<Result<List<Category>>>
 
-    fun addCategory(
+    suspend fun addCategory(
         category: String,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     )
 
-    fun editCategory(
+    suspend fun editCategory(
         category: Category,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     )
 
-    fun deleteCategory(
+    suspend fun deleteCategory(
         category: Category,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit

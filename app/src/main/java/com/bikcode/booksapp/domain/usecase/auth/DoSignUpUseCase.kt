@@ -7,7 +7,7 @@ class DoSignUpUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
 
-    operator fun invoke(
+    suspend operator fun invoke(
         data: HashMap<String, Any>,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit

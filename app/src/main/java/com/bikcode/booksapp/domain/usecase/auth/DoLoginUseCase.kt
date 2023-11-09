@@ -7,7 +7,7 @@ class DoLoginUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
 
-    operator fun invoke(
+    suspend operator fun invoke(
         email: String,
         password: String,
         onSuccess: () -> Unit,
