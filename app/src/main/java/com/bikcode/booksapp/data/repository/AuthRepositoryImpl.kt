@@ -8,6 +8,8 @@ import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor() : AuthRepository {
+
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     override fun doSignUp(
         data: HashMap<String, Any>,
         onSuccess: () -> Unit,

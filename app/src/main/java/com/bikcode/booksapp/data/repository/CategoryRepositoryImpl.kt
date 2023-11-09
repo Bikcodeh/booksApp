@@ -4,6 +4,7 @@ import com.bikcode.booksapp.domain.commons.Failure
 import com.bikcode.booksapp.domain.commons.Result
 import com.bikcode.booksapp.domain.model.Category
 import com.bikcode.booksapp.domain.repository.CategoryRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -14,8 +15,10 @@ import java.util.UUID
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
+
+    private val db: FirebaseFirestore by lazy { Firebase.firestore }
     override fun getAllCategories(): Flow<Result<List<Category>>> = callbackFlow {
-        val listener = Firebase.firestore.collection(CATEGORY_REFERENCE)
+        val listener = db.collection(CATEGORY_REFERENCE)
             .addSnapshotListener { snapshots, error ->
             if (error != null) {
                 trySend(Result.Error(Failure.UnknownException()))
@@ -45,7 +48,7 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
             put(UID_KEY, UUID.randomUUID().toString())
             put(DESCRIPTION_KEY, category)
         }
-        Firebase.firestore.collection(CATEGORY_REFERENCE).add(data)
+       db.collection(CATEGORY_REFERENCE).add(data)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener(onError)
     }
@@ -55,7 +58,6 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val db = Firebase.firestore
         db.collection(CATEGORY_REFERENCE)
             .whereEqualTo(UID_KEY, category.uid)
             .get()
@@ -75,7 +77,6 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val db = Firebase.firestore
         db.collection(CATEGORY_REFERENCE)
             .whereEqualTo(UID_KEY, category.uid)
             .get()
