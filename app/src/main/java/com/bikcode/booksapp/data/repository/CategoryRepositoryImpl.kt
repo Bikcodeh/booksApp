@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
 
@@ -51,9 +52,11 @@ class CategoryRepositoryImpl @Inject constructor(
             put(UID_KEY, UUID.randomUUID().toString())
             put(DESCRIPTION_KEY, category)
         }
-       db.collection(CATEGORY_REFERENCE).add(data)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener(onError)
+        withContext(dispatcherProvider.io) {
+            db.collection(CATEGORY_REFERENCE).add(data)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener(onError)
+        }
     }
 
     override suspend fun editCategory(
@@ -61,18 +64,20 @@ class CategoryRepositoryImpl @Inject constructor(
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        db.collection(CATEGORY_REFERENCE)
-            .whereEqualTo(UID_KEY, category.uid)
-            .get()
-            .addOnSuccessListener {
-                val categoryToEdit = it.documents[0]
-                db.collection(CATEGORY_REFERENCE)
-                    .document(categoryToEdit.id)
-                    .update(DESCRIPTION_KEY, category.description)
-                    .addOnSuccessListener { onSuccess() }
-                    .addOnFailureListener(onError)
-            }
-            .addOnFailureListener(onError)
+        withContext(dispatcherProvider.io) {
+            db.collection(CATEGORY_REFERENCE)
+                .whereEqualTo(UID_KEY, category.uid)
+                .get()
+                .addOnSuccessListener {
+                    val categoryToEdit = it.documents[0]
+                    db.collection(CATEGORY_REFERENCE)
+                        .document(categoryToEdit.id)
+                        .update(DESCRIPTION_KEY, category.description)
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener(onError)
+                }
+                .addOnFailureListener(onError)
+        }
     }
 
     override suspend fun deleteCategory(
@@ -80,17 +85,19 @@ class CategoryRepositoryImpl @Inject constructor(
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        db.collection(CATEGORY_REFERENCE)
-            .whereEqualTo(UID_KEY, category.uid)
-            .get()
-            .addOnSuccessListener {
-                val categoryToDelete = it.documents[0]
-                db.collection(CATEGORY_REFERENCE)
-                    .document(categoryToDelete.id)
-                    .delete()
-                    .addOnSuccessListener { onSuccess() }
-                    .addOnFailureListener(onError)
-            }.addOnFailureListener(onError)
+        withContext(dispatcherProvider.io) {
+            db.collection(CATEGORY_REFERENCE)
+                .whereEqualTo(UID_KEY, category.uid)
+                .get()
+                .addOnSuccessListener {
+                    val categoryToDelete = it.documents[0]
+                    db.collection(CATEGORY_REFERENCE)
+                        .document(categoryToDelete.id)
+                        .delete()
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener(onError)
+                }.addOnFailureListener(onError)
+        }
     }
 
     companion object {

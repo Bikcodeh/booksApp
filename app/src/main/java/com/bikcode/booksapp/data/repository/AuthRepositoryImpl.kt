@@ -3,9 +3,7 @@ package com.bikcode.booksapp.data.repository
 import com.bikcode.booksapp.domain.repository.AuthRepository
 import com.bikcode.booksapp.domain.repository.DispatcherProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -15,16 +13,24 @@ class AuthRepositoryImpl @Inject constructor(
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     override suspend fun doSignUp(
-        data: HashMap<String, Any>,
+        name: String,
+        email: String,
+        password: String,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        val data = hashMapOf<String, Any>().apply {
+            put(NAME_KEY, name)
+            put(EMAIL_KEY, email)
+            put(PASSWORD_KEY,password)
+            put(ROLE_ID_KEY, ROLE_USER_ID)
+        }
         withContext(dispatcherProvider.io) {
             FirebaseFirestore.getInstance().collection(USER_REFERENCE).add(data)
                 .addOnSuccessListener {
                     auth.createUserWithEmailAndPassword(
-                        data["email"] as String,
-                        data["password"] as String
+                        data[EMAIL_KEY] as String,
+                        data[PASSWORD_KEY] as String
                     )
                         .addOnSuccessListener {
                             onSuccess()
@@ -54,5 +60,10 @@ class AuthRepositoryImpl @Inject constructor(
 
     companion object {
         private const val USER_REFERENCE = "users"
+        private const val ROLE_USER_ID = "Lwi3O8OEYk70sxSM1r0r"
+        private const val NAME_KEY = "name"
+        private const val EMAIL_KEY = "email"
+        private const val PASSWORD_KEY = "password"
+        private const val ROLE_ID_KEY = "roleId"
     }
 }

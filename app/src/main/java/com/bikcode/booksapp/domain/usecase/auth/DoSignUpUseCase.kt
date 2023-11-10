@@ -8,10 +8,12 @@ class DoSignUpUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        data: HashMap<String, Any>,
+        name: String,
+        email: String,
+        password: String,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        authRepository.doSignUp(data, onSuccess, onError)
+        authRepository.doSignUp(name, email, password, onSuccess, onError)
     }
 }

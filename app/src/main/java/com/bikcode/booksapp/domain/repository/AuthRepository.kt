@@ -2,7 +2,9 @@ package com.bikcode.booksapp.domain.repository
 
 interface AuthRepository {
     suspend fun doSignUp(
-        data: HashMap<String, Any>,
+        name: String,
+        email: String,
+        password: String,
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     )

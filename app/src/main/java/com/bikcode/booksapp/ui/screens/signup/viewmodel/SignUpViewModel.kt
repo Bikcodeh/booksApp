@@ -89,15 +89,11 @@ class SignUpViewModel @Inject constructor(
     private fun signUp() {
         if (validateEmail() && validatePassword() && validateName()) {
             viewState = viewState.copy(showLoading = true)
-            val data = hashMapOf<String, Any>().apply {
-                put("name", viewState.name)
-                put("email", viewState.email)
-                put("password", viewState.password)
-                put("roleId", "Lwi3O8OEYk70sxSM1r0r")
-            }
             viewModelScope.launch(dispatcher.io) {
                 doSignUpUseCase.invoke(
-                    data = data,
+                    name = viewState.name,
+                    email = viewState.email,
+                    password = viewState.password,
                     onSuccess = {
                         viewState = viewState.copy(showLoading = false, goHome = true)
                     },
