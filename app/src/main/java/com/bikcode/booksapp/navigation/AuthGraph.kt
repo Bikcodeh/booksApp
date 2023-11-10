@@ -39,7 +39,13 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 )
             }
         ) {
-            LoginScreen(navigate = { navController.navigate(it) })
+            LoginScreen(navigate = {
+                navController.navigate(it) {
+                    popUpTo(Screens.Login.route) {
+                        inclusive = true
+                    }
+                }
+            })
         }
 
         composable(

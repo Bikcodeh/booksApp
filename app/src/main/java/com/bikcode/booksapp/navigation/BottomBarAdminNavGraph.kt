@@ -78,7 +78,13 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            AccountScreen(paddingValues)
+            AccountScreen(
+                paddingValues = paddingValues,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onLogOut = onLogOut
+            )
         }
 
         composable(
@@ -138,7 +144,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-           CategoryScreen(paddingValues)
+            CategoryScreen(paddingValues)
         }
     }
 }

@@ -66,10 +66,11 @@ fun SetupNavGraph(
             HomeScreen(
                 onLogOut = {
                     FirebaseAuth.getInstance().signOut()
-                    navController.navigate(GRAPH_AUTH) {
-                        popUpTo(GRAPH_AUTH) {
+                    navController.navigate(Screens.Login.route) {
+                        popUpTo(Screens.Home.route) {
                             inclusive = true
                         }
+                        launchSingleTop = true
                     }
                 }
             )

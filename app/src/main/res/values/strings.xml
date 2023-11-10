@@ -52,4 +52,5 @@
     <string name="error_edit_category">An Error happened while trying to update the category, please try later.</string>
     <string name="error_fetching_categories">An Error happened while trying to fetch all the categories, please try later.</string>
     <string name="error_delete_category">An Error happened while trying to delete  the category, please try later.</string>
+    <string name="save_option">Save</string>
 </resources>
