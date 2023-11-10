@@ -17,7 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +34,6 @@ import androidx.constraintlayout.compose.Dimension
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.ui.components.FormFieldString
 import com.bikcode.booksapp.ui.screens.account.components.ProfilePicture
-import com.bikcode.booksapp.ui.theme.CoolGrey
 
 @Composable
 fun AccountScreen(
@@ -122,8 +121,12 @@ fun AccountScreen(
                 onChangeValue = {}
             )
             Spacer(modifier = Modifier.height(24.dp))
-            Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
-                Text(text = stringResource(id = R.string.save_option))
+            Button(
+                shape = ShapeDefaults.Medium,
+                onClick = {},
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = stringResource(id = R.string.save_option).uppercase())
             }
         }
     }
