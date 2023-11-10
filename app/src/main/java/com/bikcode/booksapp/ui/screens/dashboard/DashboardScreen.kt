@@ -3,7 +3,9 @@ package com.bikcode.booksapp.ui.screens.dashboard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,12 +25,19 @@ fun DashboardScreen(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize().padding(paddingValues),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
         verticalArrangement = Arrangement.Center,
         horizontalArrangement = Arrangement.Center,
     ) {
         items(20) {
-            CardBook(modifier = Modifier.padding(8.dp), titleBook = "The Great Bank Robbery", authorBook = "Gabriel Garcia Marquez")
+            CardBook(
+                modifier = Modifier.padding(4.dp),
+                titleBook = "The Great Bank Robbery",
+                authorBook = "Gabriel Garcia Marquez",
+                imageUrl = ""
+            )
         }
     }
 }
