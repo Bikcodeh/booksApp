@@ -21,7 +21,8 @@ import com.bikcode.booksapp.ui.screens.home.components.CardBook
 @Composable
 fun DashboardScreen(
     onLogOut: () -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    showSnackBar: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),

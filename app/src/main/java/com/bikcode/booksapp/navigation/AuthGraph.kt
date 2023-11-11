@@ -41,8 +41,10 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
         ) {
             LoginScreen(navigate = {
                 navController.navigate(it) {
-                    popUpTo(Screens.Login.route) {
-                        inclusive = true
+                    if (it != Screens.SignUp.route) {
+                        popUpTo(Screens.Login.route) {
+                            inclusive = true
+                        }
                     }
                 }
             })
@@ -79,7 +81,7 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 onBack = { navController.popBackStack() },
                 navigate = {
                     navController.navigate(it) {
-                        popUpTo(Screens.SignUp.route) {
+                        popUpTo(Screens.Login.route) {
                             inclusive = true
                         }
                     }

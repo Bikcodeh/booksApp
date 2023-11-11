@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bikcode.booksapp.ui.screens.account.AccountScreen
 import com.bikcode.booksapp.ui.screens.category.CategoryScreen
+import com.bikcode.booksapp.ui.screens.changepassword.ChangePasswordScreen
 import com.bikcode.booksapp.ui.screens.dashboard.DashboardScreen
 import com.bikcode.booksapp.ui.screens.upload.UploadScreen
 
@@ -16,7 +17,8 @@ import com.bikcode.booksapp.ui.screens.upload.UploadScreen
 fun SetupBottomNavGraphAdmin(
     navController: NavHostController,
     onLogOut: () -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    showSnackBar: (String) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -49,7 +51,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            DashboardScreen(onLogOut, paddingValues)
+            DashboardScreen(onLogOut, paddingValues, showSnackBar)
         }
         composable(
             route = ScreensAdmin.Account.route,
@@ -80,10 +82,9 @@ fun SetupBottomNavGraphAdmin(
         ) {
             AccountScreen(
                 paddingValues = paddingValues,
-                onBack = {
-                    navController.popBackStack()
-                },
-                onLogOut = onLogOut
+                onLogOut = onLogOut,
+                showSnackBar = showSnackBar,
+                navigate = { navController.navigate(it) }
             )
         }
 
@@ -114,7 +115,7 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            UploadScreen(paddingValues)
+            UploadScreen(paddingValues, showSnackBar)
         }
 
         composable(
@@ -144,7 +145,10 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            CategoryScreen(paddingValues)
+            CategoryScreen(paddingValues, showSnackBar)
+        }
+        composable(route = Screens.ChangePassword.route) {
+            ChangePasswordScreen(onBack = { navController.popBackStack() })
         }
     }
 }

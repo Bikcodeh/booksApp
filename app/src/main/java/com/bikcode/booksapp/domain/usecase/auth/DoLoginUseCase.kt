@@ -1,9 +1,8 @@
 package com.bikcode.booksapp.domain.usecase.auth
 
 import com.bikcode.booksapp.domain.repository.AuthRepository
-import javax.inject.Inject
 
-class DoLoginUseCase @Inject constructor(
+class DoLoginUseCase(
     private val authRepository: AuthRepository
 ) {
 

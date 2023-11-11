@@ -53,4 +53,8 @@
     <string name="error_fetching_categories">An Error happened while trying to fetch all the categories, please try later.</string>
     <string name="error_delete_category">An Error happened while trying to delete  the category, please try later.</string>
     <string name="save_option">Save</string>
+    <string name="change_password">Change Password</string>
+    <string name="error_fetching_user_data">An error ocurred fetching user data, please try again later.</string>
+    <string name="personal_info">Personal info</string>
+    <string name="logout">Logout</string>
 </resources>
