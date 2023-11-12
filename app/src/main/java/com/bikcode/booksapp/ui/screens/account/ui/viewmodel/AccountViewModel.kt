@@ -1,4 +1,4 @@
-package com.bikcode.booksapp.ui.screens.account.viewmodel
+package com.bikcode.booksapp.ui.screens.account.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.core.generic.UiText
-import com.bikcode.booksapp.domain.commons.fold
 import com.bikcode.booksapp.domain.repository.AuthRepository
 import com.bikcode.booksapp.domain.repository.DispatcherProvider
 import com.bikcode.booksapp.ui.utils.MVIViewModel
@@ -21,6 +20,7 @@ class AccountViewModel @Inject constructor(
 ) : MVIViewModel<AccountEvent>() {
 
     var viewState by mutableStateOf(AccountUiState())
+    var changePasswordViewState by mutableStateOf(ChangePasswordUiState())
     override fun handleEvents(event: AccountEvent) {
         when (event) {
             AccountEvent.OnChangePasswordClick -> {}
@@ -30,6 +30,11 @@ class AccountViewModel @Inject constructor(
             }
 
             AccountEvent.OnSave -> {}
+            is AccountEvent.OnConfirmPasswordChange -> changePasswordViewState =
+                changePasswordViewState.copy(confirmPassword = event.text)
+
+            is AccountEvent.OnPasswordChange -> changePasswordViewState =
+                changePasswordViewState.copy(password = event.text)
         }
     }
 

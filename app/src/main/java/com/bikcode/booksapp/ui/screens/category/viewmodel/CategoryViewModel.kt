@@ -14,6 +14,7 @@ import com.bikcode.booksapp.domain.usecase.category.EditCategoryUseCase
 import com.bikcode.booksapp.domain.usecase.category.GetAllCategoriesUseCase
 import com.bikcode.booksapp.ui.utils.MVIViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -192,7 +193,6 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewState = viewState.copy(loading = true)
-        viewModelScope
         getAllCategoriesUseCase().onEach { result ->
             viewState = when (result) {
                 is Result.Error -> viewState.copy(
@@ -202,6 +202,6 @@ class CategoryViewModel @Inject constructor(
 
                 is Result.Success -> viewState.copy(loading = false, categories = result.data)
             }
-        }.launchIn(viewModelScope)
+        }.flowOn(dispatcherProvider.io).launchIn(viewModelScope)
     }
 }

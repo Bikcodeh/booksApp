@@ -1,10 +1,10 @@
-package com.bikcode.booksapp.ui.screens.account
+package com.bikcode.booksapp.ui.screens.account.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bikcode.booksapp.navigation.Screens
-import com.bikcode.booksapp.ui.screens.account.viewmodel.AccountViewModel
+import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.AccountViewModel
 
 @Composable
 fun AccountScreen(

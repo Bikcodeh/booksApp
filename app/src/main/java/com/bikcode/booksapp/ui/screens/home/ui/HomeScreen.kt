@@ -1,5 +1,7 @@
 package com.bikcode.booksapp.ui.screens.home.ui
 
+import android.app.Activity
+import android.view.WindowManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -18,13 +20,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.core.eventbus.EventBusViewModel
 import com.bikcode.booksapp.core.eventbus.events.CategoryFab
+import com.bikcode.booksapp.core.eventbus.events.HideBottomBarEvent
 import com.bikcode.booksapp.core.eventbus.events.InitialState
 import com.bikcode.booksapp.navigation.Screens
 import com.bikcode.booksapp.navigation.ScreensAdmin
@@ -37,6 +42,7 @@ fun HomeScreen(
     onLogOut: () -> Unit,
     eventBusViewModel: EventBusViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
     val navController = rememberNavController()
     val coroutines = rememberCoroutineScope()
@@ -56,6 +62,7 @@ fun HomeScreen(
             }
 
             InitialState -> {}
+            is HideBottomBarEvent -> { showBottomBar = busEvent.show }
         }
     }
     LaunchedEffect(key1 = currentRoute?.destination?.route) {
@@ -63,6 +70,14 @@ fun HomeScreen(
             Screens.ChangePassword.route -> false
             else -> true
         }
+        val decor = when (currentRoute?.destination?.route) {
+            ScreensAdmin.Category.route -> false
+            else -> true
+        }
+        if (decor)
+            (context as Activity).window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        else
+            (context as Activity).window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
     Scaffold(
         bottomBar = {

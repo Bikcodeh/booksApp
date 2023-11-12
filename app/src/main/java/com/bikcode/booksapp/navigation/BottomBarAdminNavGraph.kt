@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bikcode.booksapp.ui.screens.account.AccountScreen
+import com.bikcode.booksapp.ui.screens.account.ui.AccountScreen
 import com.bikcode.booksapp.ui.screens.category.CategoryScreen
-import com.bikcode.booksapp.ui.screens.changepassword.ChangePasswordScreen
+import com.bikcode.booksapp.ui.screens.account.ui.password.ChangePasswordScreen
 import com.bikcode.booksapp.ui.screens.dashboard.DashboardScreen
 import com.bikcode.booksapp.ui.screens.upload.UploadScreen
 

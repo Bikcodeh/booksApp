@@ -3,6 +3,7 @@ package com.bikcode.booksapp.ui.screens.category
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -118,7 +119,8 @@ fun CategoryContent(
                 detectTapGestures(onTap = {
                     localFocusManager.clearFocus()
                 })
-            }) {
+            }
+        ) {
             stickyHeader {
                 CategorySearch(
                     modifier = Modifier.padding(top = 8.dp),
@@ -153,7 +155,7 @@ fun CategoryContent(
 @Composable
 private fun CategoryContentPreview() {
     CategoryContent(
-        uiState = CategoryUiState(),
+        uiState = CategoryUiState(loading = false),
         paddingValues = PaddingValues(),
         handleOnAddEdit = {},
         showSnackBar = {},

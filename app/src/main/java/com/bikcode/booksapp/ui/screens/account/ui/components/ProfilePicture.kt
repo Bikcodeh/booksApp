@@ -1,4 +1,4 @@
-package com.bikcode.booksapp.ui.screens.account.components
+package com.bikcode.booksapp.ui.screens.account.ui.components
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

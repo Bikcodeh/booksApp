@@ -51,7 +51,8 @@ fun ColumnScope.FormFieldStringPassword(
     @StringRes placeholder: Int,
     formValue: String,
     onChangeValue: (String) -> Unit,
-    error: UiText? = null
+    error: UiText? = null,
+    isEnabled: Boolean = true
 ) {
     var focused by remember { mutableStateOf(false) }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
@@ -64,10 +65,12 @@ fun ColumnScope.FormFieldStringPassword(
     Text(text = stringResource(id = label), color = MaterialTheme.colorScheme.formTextColor)
     Spacer(modifier = Modifier.height(4.dp))
     Surface(
+        modifier = modifier,
         shadowElevation = shadowDp,
         shape = ShapeDefaults.Medium
     ) {
         OutlinedTextField(
+            enabled = isEnabled,
             placeholder = {
                 Text(
                     text = stringResource(id = placeholder),
