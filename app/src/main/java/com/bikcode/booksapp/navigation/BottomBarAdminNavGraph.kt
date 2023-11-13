@@ -22,10 +22,10 @@ fun SetupBottomNavGraphAdmin(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ScreensAdmin.Dashboard.route
+        startDestination = BottomBarRoutesAdmin.DASHBOARD.route
     ) {
         composable(
-            route = ScreensAdmin.Dashboard.route,
+            route = BottomBarRoutesAdmin.DASHBOARD.route,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
@@ -51,10 +51,10 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            DashboardScreen(onLogOut, paddingValues, showSnackBar)
+            DashboardScreen(paddingValues, showSnackBar)
         }
         composable(
-            route = ScreensAdmin.Account.route,
+            route = BottomBarRoutesAdmin.ACCOUNT.route,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
@@ -89,7 +89,7 @@ fun SetupBottomNavGraphAdmin(
         }
 
         composable(
-            route = ScreensAdmin.Upload.route,
+            route = BottomBarRoutesAdmin.UPLOAD.route,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
@@ -119,7 +119,7 @@ fun SetupBottomNavGraphAdmin(
         }
 
         composable(
-            route = ScreensAdmin.Category.route,
+            route = BottomBarRoutesAdmin.CATEGORY.route,
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,

@@ -4,28 +4,28 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.bikcode.booksapp.R
 
-sealed class ScreensAdmin(
+enum class BottomBarRoutesAdmin(
     val route: String,
     @StringRes val title: Int,
     @DrawableRes val icon: Int
 ) {
-    object Dashboard : ScreensAdmin(
+    DASHBOARD(
         route = "dashboard_screen",
         title = R.string.dashboard_description,
         icon = R.drawable.ic_dashboard
-    )
+    ),
 
-    object Account : ScreensAdmin(
+     ACCOUNT(
         route = "account_screen",
         title = R.string.account_description,
         icon = R.drawable.ic_account
-    )
-    object Upload : ScreensAdmin(
+    ),
+     UPLOAD(
         route = "upload_screen",
         title = R.string.upload_description,
         icon = R.drawable.ic_upload
-    )
-    object Category : ScreensAdmin(
+    ),
+     CATEGORY(
         route = "category_screen",
         title = R.string.category_description,
         icon = R.drawable.ic_category

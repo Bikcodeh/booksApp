@@ -22,18 +22,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
 import com.bikcode.booksapp.R
 import com.bikcode.booksapp.core.eventbus.EventBusViewModel
 import com.bikcode.booksapp.core.eventbus.events.CategoryFab
 import com.bikcode.booksapp.core.eventbus.events.HideBottomBarEvent
 import com.bikcode.booksapp.core.eventbus.events.InitialState
-import com.bikcode.booksapp.navigation.Screens
-import com.bikcode.booksapp.navigation.ScreensAdmin
+import com.bikcode.booksapp.navigation.BottomBarRoutesAdmin
 import com.bikcode.booksapp.navigation.SetupBottomNavGraphAdmin
+import com.bikcode.booksapp.navigation.rememberAppState
 import com.bikcode.booksapp.ui.components.BottomBarAdmin
 import kotlinx.coroutines.launch
 
@@ -44,14 +42,13 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
-    val navController = rememberNavController()
+    val appState = rememberAppState()
     val coroutines = rememberCoroutineScope()
-    var showBottomBar by remember { mutableStateOf(true) }
     var showFab by remember { mutableStateOf(false) }
     var fabClick by remember { mutableStateOf<() -> Unit>({}) }
-    val currentRoute by navController
+    val currentRoute by appState.navHostController
         .currentBackStackEntryFlow
-        .collectAsState(initial = navController.currentBackStackEntry)
+        .collectAsState(initial = appState.navHostController.currentBackStackEntry)
     val events by eventBusViewModel.getEvents()
         .collectAsStateWithLifecycle(initialValue = InitialState)
     LaunchedEffect(key1 = events) {
@@ -62,16 +59,12 @@ fun HomeScreen(
             }
 
             InitialState -> {}
-            is HideBottomBarEvent -> { showBottomBar = busEvent.show }
+            is HideBottomBarEvent -> {}
         }
     }
     LaunchedEffect(key1 = currentRoute?.destination?.route) {
-        showBottomBar = when (currentRoute?.destination?.route) {
-            Screens.ChangePassword.route -> false
-            else -> true
-        }
         val decor = when (currentRoute?.destination?.route) {
-            ScreensAdmin.Category.route -> false
+            BottomBarRoutesAdmin.CATEGORY.route -> false
             else -> true
         }
         if (decor)
@@ -82,11 +75,11 @@ fun HomeScreen(
     Scaffold(
         bottomBar = {
             AnimatedVisibility(
-                visible = showBottomBar,
+                visible = appState.shouldShowBottomBar,
                 exit = slideOutVertically(targetOffsetY = { it }),
                 enter = slideInVertically(initialOffsetY = { it })
             ) {
-                BottomBarAdmin(navController)
+                BottomBarAdmin(appState.navHostController)
             }
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
@@ -102,7 +95,7 @@ fun HomeScreen(
         }
     ) {
         SetupBottomNavGraphAdmin(
-            navController,
+            appState.navHostController,
             onLogOut,
             it,
             showSnackBar = {

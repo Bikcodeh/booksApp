@@ -2,8 +2,8 @@ package com.bikcode.booksapp.ui.screens.account.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +52,7 @@ fun AccountContent(
         Loading()
     } else {
         AnimatedVisibility(
-            visible = true, exit = slideOutHorizontally(), enter = slideInVertically(
+            visible = true, exit = scaleOut(), enter = scaleIn(
                 animationSpec = tween(800)
             )
         ) {
@@ -118,7 +119,10 @@ fun AccountContent(
                             onClick = { onLogOut() },
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(text = stringResource(id = R.string.logout).uppercase())
+                            Text(
+                                text = stringResource(id = R.string.logout).uppercase(),
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                 }

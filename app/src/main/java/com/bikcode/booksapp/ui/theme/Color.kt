@@ -17,6 +17,12 @@ val Gray = Color(0xFF2D2D2D)
 val GrayLight = Color(0xFF414141)
 val CoolGrey = Color(0xFFF5F5F5)
 val BlackGray = Color(0xFF191C20)
+val EerieBlack = Color(0xFF1D1D1D)
+val BlackGraySecon = Color(0xFF313131)
+
+val ColorScheme.backgroundColor
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Color.White else EerieBlack
 
 val ColorScheme.formTextColor
     @Composable
@@ -33,3 +39,15 @@ val ColorScheme.formFieldColorFocused
 val ColorScheme.iconTintColor
     @Composable
     get() = if (!isSystemInDarkTheme()) Color.Black else GrayLight
+
+val ColorScheme.formTextColorSecondary
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Gray else Color.White
+
+val ColorScheme.iconColor
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Color.Black else Color.White
+
+val ColorScheme.cardColor
+    @Composable
+    get() = if (!isSystemInDarkTheme()) CoolGrey else BlackGraySecon

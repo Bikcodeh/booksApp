@@ -1,5 +1,6 @@
 package com.bikcode.booksapp.ui.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -15,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.ui.theme.cardColor
+import com.bikcode.booksapp.ui.theme.formTextColor
 
 
 @Composable
@@ -27,7 +30,8 @@ fun CategoryBook(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = ShapeDefaults.Medium,
-        shadowElevation = 4.dp
+        shadowElevation = 4.dp,
+        color = MaterialTheme.colorScheme.cardColor
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -42,7 +46,8 @@ fun CategoryBook(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 },
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.formTextColor
             )
             IconButton(
                 onClick = onEdit,
@@ -77,5 +82,11 @@ fun CategoryBook(
 @Preview
 @Composable
 private fun CategoryBookPreview() {
+    CategoryBook(onDelete = {}, onEdit = {}, textValue = "Action")
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun CategoryBookPreviewDark() {
     CategoryBook(onDelete = {}, onEdit = {}, textValue = "Action")
 }

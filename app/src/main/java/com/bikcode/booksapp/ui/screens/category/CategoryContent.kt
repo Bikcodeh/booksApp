@@ -115,6 +115,7 @@ fun CategoryContent(
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
+            .padding(end = 16.dp, start = 16.dp, top = 16.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     localFocusManager.clearFocus()

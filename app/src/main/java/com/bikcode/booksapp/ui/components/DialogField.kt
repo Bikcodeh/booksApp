@@ -1,5 +1,6 @@
 package com.bikcode.booksapp.ui.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +31,8 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.ui.theme.backgroundColor
+import com.bikcode.booksapp.ui.theme.formTextColor
 
 
 @Composable
@@ -52,12 +57,16 @@ fun DialogField(
         Box(
             contentAlignment = Alignment.Center,
             modifier = modifier
+                .background(
+                    MaterialTheme.colorScheme.backgroundColor,
+                    shape = RoundedCornerShape(8.dp)
+                )
                 .width((width * 0.8).dp)
                 .height(220.dp)
-                .background(Color.White, shape = RoundedCornerShape(8.dp))
         ) {
             ConstraintLayout(
                 modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
@@ -70,7 +79,8 @@ fun DialogField(
                         this.width = Dimension.fillToConstraints
                     },
                     textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.formTextColor
                 )
                 Column(modifier = Modifier.constrainAs(field) {
                     linkTo(parent.start, parent.end)
@@ -89,11 +99,19 @@ fun DialogField(
                     top.linkTo(field.bottom, 24.dp)
                 }) {
                     OutlinedButton(onClick = { onCancel() }, modifier = Modifier.weight(1f)) {
-                        Text(text = cancelButtonText, textAlign = TextAlign.Center)
+                        Text(
+                            text = cancelButtonText.uppercase(),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(onClick = { onConfirm() }, modifier = Modifier.weight(1f)) {
-                        Text(text = confirmButtonText, textAlign = TextAlign.Center)
+                        Text(
+                            text = confirmButtonText.uppercase(),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
@@ -104,6 +122,23 @@ fun DialogField(
 @Preview
 @Composable
 private fun DialogFieldPreview() {
+    DialogField(
+        titleText = "Add Category",
+        formText = "",
+        formLabel = null,
+        formPlaceholder = R.string.add_option,
+        onTextChange = {},
+        confirmButtonText = "Add",
+        cancelButtonText = "Cancel",
+        onDismiss = {},
+        onConfirm = {},
+        onCancel = {}
+    )
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun DialogFieldPreviewDark() {
     DialogField(
         titleText = "Add Category",
         formText = "",

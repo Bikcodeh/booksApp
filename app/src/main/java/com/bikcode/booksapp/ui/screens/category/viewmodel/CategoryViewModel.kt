@@ -130,7 +130,13 @@ class CategoryViewModel @Inject constructor(
                                 isEditingCategory = false,
                                 category = "",
                                 showAddEditDialog = false,
-                                categorySelected = null
+                                categorySelected = null,
+                                filteredCategories = if (viewState.filteredCategories != null) {
+                                    onFilter(viewState.textFilterCategories)
+                                    viewState.filteredCategories
+                                } else {
+                                    null
+                                }
                             )
                     },
                     onError = {

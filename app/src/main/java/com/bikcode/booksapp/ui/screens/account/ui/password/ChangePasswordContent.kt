@@ -12,9 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -25,6 +28,7 @@ import com.bikcode.booksapp.ui.components.FormFieldStringPassword
 import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.ChangePasswordUiState
 import com.bikcode.booksapp.ui.utils.extension.clearFocusOnClickOutside
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ChangePasswordContent(
     modifier: Modifier = Modifier,
@@ -34,6 +38,7 @@ fun ChangePasswordContent(
     onChangeConfirmPassword: (String) -> Unit,
     uiState: ChangePasswordUiState
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val requestFocus = LocalFocusManager.current
     ConstraintLayout(
         modifier = modifier
@@ -48,6 +53,7 @@ fun ChangePasswordContent(
                 top.linkTo(parent.top, 16.dp)
             }
         ) {
+            keyboardController?.hide()
             onBack()
         }
         Text(
@@ -90,7 +96,7 @@ fun ChangePasswordContent(
             )
             Spacer(modifier = Modifier.height(40.dp))
             Button(onClick = {}, modifier = Modifier.fillMaxWidth(), shape = ShapeDefaults.Medium) {
-                Text(text = stringResource(id = R.string.update_password).uppercase())
+                Text(text = stringResource(id = R.string.update_password).uppercase(), fontWeight = FontWeight.Bold)
             }
         }
     }

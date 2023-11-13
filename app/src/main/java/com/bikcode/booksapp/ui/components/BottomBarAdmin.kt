@@ -1,20 +1,12 @@
 package com.bikcode.booksapp.ui.components
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
@@ -22,16 +14,16 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.bikcode.booksapp.navigation.ScreensAdmin
+import com.bikcode.booksapp.navigation.BottomBarRoutesAdmin
 
 
 @Composable
 fun BottomBarAdmin(navController: NavHostController) {
     val screens = listOf(
-        ScreensAdmin.Dashboard,
-        ScreensAdmin.Upload,
-        ScreensAdmin.Category,
-        ScreensAdmin.Account
+        BottomBarRoutesAdmin.DASHBOARD,
+        BottomBarRoutesAdmin.UPLOAD,
+        BottomBarRoutesAdmin.CATEGORY,
+        BottomBarRoutesAdmin.ACCOUNT
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -50,7 +42,7 @@ fun BottomBarAdmin(navController: NavHostController) {
 
 @Composable
 fun RowScope.AddItem(
-    menuItem: ScreensAdmin,
+    menuItem: BottomBarRoutesAdmin,
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {

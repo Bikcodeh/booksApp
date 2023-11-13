@@ -1,5 +1,6 @@
 package com.bikcode.booksapp.ui.screens.category.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -23,11 +24,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.ui.theme.backgroundColor
+import com.bikcode.booksapp.ui.theme.formFieldColorUnfocused
+import com.bikcode.booksapp.ui.theme.formTextColor
+import com.bikcode.booksapp.ui.theme.formTextColorSecondary
+import com.bikcode.booksapp.ui.theme.iconColor
 import com.bikcode.booksapp.ui.theme.iconTintColor
 
 @Composable
@@ -46,7 +53,8 @@ fun CategorySearch(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = ShapeDefaults.Medium,
-        shadowElevation = 4.dp
+        shadowElevation = 4.dp,
+        color = MaterialTheme.colorScheme.formFieldColorUnfocused
     ) {
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
@@ -70,10 +78,12 @@ fun CategorySearch(
             ) {
                 Icon(
                     painter = painterResource(id = if (showArrowBack || text.isNotEmpty()) R.drawable.ic_arrow_back else R.drawable.ic_search),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.iconColor
                 )
             }
             BasicTextField(
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.formTextColorSecondary),
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .onFocusEvent {
@@ -104,7 +114,7 @@ fun CategorySearch(
                         showClearText = false
                         Text(
                             text = stringResource(id = R.string.search_placeholder),
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.formTextColorSecondary
                         )
                     } else {
                         showClearText = true
@@ -144,5 +154,11 @@ fun CategorySearch(
 @Preview(showBackground = true)
 @Composable
 private fun CategorySearchPreview() {
+    CategorySearch(onClearFilter = {}, onTextChange = {})
+}
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun CategorySearchPreviewDark() {
     CategorySearch(onClearFilter = {}, onTextChange = {})
 }
