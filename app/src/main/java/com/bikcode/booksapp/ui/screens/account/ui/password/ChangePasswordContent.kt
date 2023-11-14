@@ -33,6 +33,7 @@ import com.bikcode.booksapp.ui.utils.extension.clearFocusOnClickOutside
 fun ChangePasswordContent(
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
+    showSnackBar: (String) -> Unit,
     currentPassword: String?,
     onChangePassword: (String) -> Unit,
     onChangeConfirmPassword: (String) -> Unit,
@@ -40,6 +41,12 @@ fun ChangePasswordContent(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val requestFocus = LocalFocusManager.current
+    uiState.alertText?.let {
+        showSnackBar(it.toString())
+        onChangePassword("")
+        onChangeConfirmPassword("")
+    }
+    uiState.error?.let { showSnackBar(it.toString()) }
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
@@ -96,7 +103,10 @@ fun ChangePasswordContent(
             )
             Spacer(modifier = Modifier.height(40.dp))
             Button(onClick = {}, modifier = Modifier.fillMaxWidth(), shape = ShapeDefaults.Medium) {
-                Text(text = stringResource(id = R.string.update_password).uppercase(), fontWeight = FontWeight.Bold)
+                Text(
+                    text = stringResource(id = R.string.update_password).uppercase(),
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }

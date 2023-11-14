@@ -37,7 +37,8 @@ import com.bikcode.booksapp.ui.theme.Purple40
 @Composable
 fun ProfilePicture(
     modifier: Modifier = Modifier,
-    size: Dp = 120.dp
+    size: Dp = 120.dp,
+    onChangePhoto: (Uri?) -> Unit
 ) {
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
@@ -47,6 +48,7 @@ fun ProfilePicture(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri = uri
+        onChangePhoto(uri)
     }
     Box(
         modifier = modifier.padding(8.dp)
@@ -90,5 +92,5 @@ fun ProfilePicture(
 @Preview
 @Composable
 private fun ProfilePicturePreview() {
-    ProfilePicture()
+    ProfilePicture(onChangePhoto = {})
 }

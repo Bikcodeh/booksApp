@@ -61,4 +61,7 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="update_password">Update Password</string>
+    <string name="error_updating_password">An error happened updating your password, please try again later.</string>
+    <string name="change_password_successfully">Password changed!</string>
+    <string name="error_photo">An error occurred loading your photo, choose another please</string>
 </resources>

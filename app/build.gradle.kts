@@ -74,6 +74,7 @@ dependencies {
     implementation(platform(libs.firebaseBom))
     implementation(libs.firebaseAuthentication)
     implementation(libs.firebaseDatabase)
+    implementation(libs.firebaseStorage)
 
     /** Network */
     implementation(libs.retrofit)

@@ -1,5 +1,6 @@
 package com.bikcode.booksapp.ui.screens.account.ui.viewmodel
 
+import android.net.Uri
 import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.model.User
 import com.bikcode.booksapp.ui.utils.ViewEvent
@@ -11,6 +12,7 @@ sealed class AccountEvent : ViewEvent {
     object OnChangePasswordSave : AccountEvent()
     data class OnPasswordChange(val text: String): AccountEvent()
     data class OnConfirmPasswordChange(val text: String): AccountEvent()
+    data class UpdateProfilePicture(val photoUri: Uri): AccountEvent()
 }
 
 data class AccountUiState(
@@ -25,5 +27,6 @@ data class ChangePasswordUiState(
     val isLoading: Boolean = false,
     val error: UiText? = null,
     val password: String = "",
-    val confirmPassword: String = ""
+    val confirmPassword: String = "",
+    val alertText: UiText? = null
 )

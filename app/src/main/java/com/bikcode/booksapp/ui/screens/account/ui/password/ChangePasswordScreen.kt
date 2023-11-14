@@ -10,6 +10,7 @@ import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.AccountViewModel
 @Composable
 fun ChangePasswordScreen(
     onBack: () -> Unit,
+    showSnackBar: (String) -> Unit,
     accountViewModel: AccountViewModel = hiltViewModel()
 ) {
     val state by rememberUpdatedState(newValue = accountViewModel.changePasswordViewState)
@@ -22,6 +23,7 @@ fun ChangePasswordScreen(
             accountViewModel.handleEvents(AccountEvent.OnConfirmPasswordChange(it))
         },
         uiState = state,
-        currentPassword = accountViewModel.viewState.user?.password
+        currentPassword = accountViewModel.viewState.user?.password,
+        showSnackBar = showSnackBar
     )
 }

@@ -47,3 +47,4 @@ firebaseBom = { module = "com.google.firebase:firebase-bom", version.ref = "fire
 gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion"}
 firebaseAuthentication = { module = "com.google.firebase:firebase-auth-ktx" }
 firebaseDatabase = { module = "com.google.firebase:firebase-firestore" }
+firebaseStorage = { module = "com.google.firebase:firebase-storage" }

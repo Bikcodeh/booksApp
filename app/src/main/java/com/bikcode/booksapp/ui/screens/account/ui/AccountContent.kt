@@ -1,5 +1,6 @@
 package com.bikcode.booksapp.ui.screens.account.ui
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,12 +33,14 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.model.User
 import com.bikcode.booksapp.ui.components.CardRowAction
 import com.bikcode.booksapp.ui.components.Loading
 import com.bikcode.booksapp.ui.screens.account.ui.components.ProfilePicture
 import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.AccountUiState
 import com.bikcode.booksapp.ui.utils.extension.clearFocusOnClickOutside
+import com.bikcode.booksapp.ui.utils.getFileName
 
 @Composable
 fun AccountContent(
@@ -45,9 +49,14 @@ fun AccountContent(
     onLogOut: () -> Unit,
     onChangePasswordClick: (String) -> Unit,
     onPersonalInfoClick: (User) -> Unit,
-    showSnackBar: (String) -> Unit
+    showSnackBar: (String) -> Unit,
+    onChangePhoto: (Uri) -> Unit
 ) {
+    val context = LocalContext.current
     val localFocusManager = LocalFocusManager.current
+    uiState.error?.let {
+        showSnackBar(it.asString(context))
+    }
     if (uiState.isLoading) {
         Loading()
     } else {
@@ -57,9 +66,6 @@ fun AccountContent(
             )
         ) {
             uiState.user?.let { safeUser ->
-                uiState.error?.let {
-                    showSnackBar(it.toString())
-                }
                 ConstraintLayout(
                     modifier = Modifier
                         .clearFocusOnClickOutside(localFocusManager)
@@ -96,6 +102,14 @@ fun AccountContent(
                             linkTo(parent.start, parent.end)
                             top.linkTo(background.top, 124.dp)
                             bottom.linkTo(background.bottom)
+                        },
+                        onChangePhoto = { photoUri ->
+                            photoUri?.let {
+                                val sd = getFileName(context, photoUri)
+                                onChangePhoto(it)
+                            } ?: run {
+                                showSnackBar(UiText.StringResource(R.string.error_photo).toString())
+                            }
                         }
                     )
                     Column(
@@ -148,6 +162,7 @@ private fun AccountContentPreview() {
             )
         ),
         onChangePasswordClick = {},
-        showSnackBar = {}
+        showSnackBar = {},
+        onChangePhoto = {}
     )
 }

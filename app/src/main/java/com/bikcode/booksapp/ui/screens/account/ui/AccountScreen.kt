@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bikcode.booksapp.navigation.Screens
+import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.AccountEvent
 import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.AccountViewModel
 
 @Composable
@@ -17,14 +18,14 @@ fun AccountScreen(
     showSnackBar: (String) -> Unit,
     accountViewModel: AccountViewModel = hiltViewModel()
 ) {
-    val state by rememberUpdatedState(newValue = accountViewModel.viewState)
     val passwordClick = remember { navigate }
     AccountContent(
         paddingValues = paddingValues,
         onLogOut = onLogOut,
-        uiState = state,
+        uiState = accountViewModel.viewState,
         onChangePasswordClick = { passwordClick.invoke(Screens.ChangePassword.route) },
         onPersonalInfoClick = { },
-        showSnackBar = showSnackBar
+        showSnackBar = showSnackBar,
+        onChangePhoto = { accountViewModel.handleEvents(AccountEvent.UpdateProfilePicture(it)) }
     )
 }

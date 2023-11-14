@@ -148,7 +148,7 @@ fun SetupBottomNavGraphAdmin(
             CategoryScreen(paddingValues, showSnackBar)
         }
         composable(route = Screens.ChangePassword.route) {
-            ChangePasswordScreen(onBack = { navController.popBackStack() })
+            ChangePasswordScreen(onBack = { navController.popBackStack() }, showSnackBar)
         }
     }
 }
