@@ -14,4 +14,9 @@ interface AccountRepository {
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     )
+
+    suspend fun getProfilePicture(
+        onSuccess: (Uri) -> Unit,
+        onError: (Throwable) -> Unit
+    )
 }

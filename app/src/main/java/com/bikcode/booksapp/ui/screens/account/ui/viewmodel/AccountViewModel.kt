@@ -43,34 +43,51 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private fun updateProfilePicture(photoUri: Uri) {
-        viewState =
-            viewState.copy(isLoading = true, error = null)
+    private fun fetchProfilePicture() {
         viewModelScope.launch(dispatcherProvider.io) {
-            accountRepository.updateProfilePicture(
-                photoUri = photoUri,
+            accountRepository.getProfilePicture(
                 onSuccess = {
-                    viewState =
-                        viewState.copy(isLoading = false, error = null)
-                },
-                onError = {
+                    viewState = viewState.copy(picture = it)
+                }, onError = {
                     viewState =
                         viewState.copy(
-                            isLoading = false,
-                            error = UiText.StringResource(R.string.error_photo)
+                            error = UiText.StringResource(R.string.error_loading_image),
+                            picture = null
                         )
                 }
             )
         }
     }
 
+    private fun updateProfilePicture(photoUri: Uri) {
+        viewModelScope.launch(dispatcherProvider.io) {
+            accountRepository.updateProfilePicture(
+                photoUri = photoUri,
+                onSuccess = {
+                    viewState = viewState.copy(error = null)
+                    fetchProfilePicture()
+                },
+                onError = {
+                    viewState =
+                        viewState.copy(error = UiText.StringResource(R.string.error_photo))
+                }
+            )
+        }
+    }
+
     init {
-        viewState = viewState.copy(isLoading = true, error = null)
+        viewState = viewState.copy(isLoading = true, error = null, picture = null)
         viewModelScope.launch(dispatcherProvider.io) {
             authRepository.getAuthUser(
                 onSuccess = {
+                    fetchProfilePicture()
                     viewState =
-                        viewState.copy(user = it, error = null, name = it.name, isLoading = false)
+                        viewState.copy(
+                            user = it,
+                            error = null,
+                            name = it.name,
+                            isLoading = false
+                        )
                 },
                 onError = {
                     viewState =

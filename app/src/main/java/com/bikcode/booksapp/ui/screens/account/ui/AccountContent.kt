@@ -20,6 +20,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -103,9 +106,9 @@ fun AccountContent(
                             top.linkTo(background.top, 124.dp)
                             bottom.linkTo(background.bottom)
                         },
+                        state = uiState,
                         onChangePhoto = { photoUri ->
                             photoUri?.let {
-                                val sd = getFileName(context, photoUri)
                                 onChangePhoto(it)
                             } ?: run {
                                 showSnackBar(UiText.StringResource(R.string.error_photo).toString())

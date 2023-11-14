@@ -20,7 +20,8 @@ data class AccountUiState(
     val user: User? = null,
     val name: String = "",
     val image: String = "",
-    val error: UiText? = null
+    val error: UiText? = null,
+    val picture: Uri? = null
 )
 
 data class ChangePasswordUiState(

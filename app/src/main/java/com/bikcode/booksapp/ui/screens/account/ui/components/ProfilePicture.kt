@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,19 +31,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.bikcode.booksapp.R
+import com.bikcode.booksapp.ui.screens.account.ui.viewmodel.AccountUiState
 import com.bikcode.booksapp.ui.theme.Purple40
 
 @Composable
 fun ProfilePicture(
     modifier: Modifier = Modifier,
+    state: AccountUiState,
     size: Dp = 120.dp,
-    onChangePhoto: (Uri?) -> Unit
+    onChangePhoto: (Uri?) -> Unit,
 ) {
-    var imageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
+    var imageUri by remember(state) { mutableStateOf(state.picture) }
     val launcher = rememberLauncherForActivityResult(
         contract =
         ActivityResultContracts.GetContent()
@@ -53,8 +55,14 @@ fun ProfilePicture(
     Box(
         modifier = modifier.padding(8.dp)
     ) {
-        AsyncImage(
-            model = imageUri ?: R.drawable.portrait_placeholder,
+        SubcomposeAsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUri ?: R.drawable.portrait_placeholder)
+                .crossfade(true)
+                .build(),
+            loading = {
+                      CircularProgressIndicator()
+            },
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -63,7 +71,6 @@ fun ProfilePicture(
                 .border(width = 2.dp, color = Purple40, shape = CircleShape)
                 .fillMaxSize()
         )
-
         Box(
             modifier = Modifier
                 .padding(end = 16.dp)
@@ -92,5 +99,5 @@ fun ProfilePicture(
 @Preview
 @Composable
 private fun ProfilePicturePreview() {
-    ProfilePicture(onChangePhoto = {})
+    ProfilePicture(onChangePhoto = {}, state = AccountUiState())
 }

@@ -13,6 +13,7 @@ class AccountRepositoryImpl @Inject constructor(
 ) : AccountRepository {
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val storage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
     override suspend fun updatePassword(
         password: String,
         onSuccess: () -> Unit,
@@ -34,14 +35,27 @@ class AccountRepositoryImpl @Inject constructor(
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        auth.currentUser?.let { user ->
-            val reference = FirebaseStorage.getInstance().reference
-            val imageRef = reference.child("images")
-            val image = imageRef.child(user.uid)
-            image.putFile(photoUri).addOnSuccessListener {
-                onSuccess()
-            }.addOnFailureListener {
-                onError(it)
+        withContext(dispatcherProvider.io) {
+            auth.currentUser?.let { user ->
+                val imageRef = storage.reference.child("images")
+                val image = imageRef.child(user.uid)
+                image.putFile(photoUri).addOnSuccessListener {
+                    onSuccess()
+                }.addOnFailureListener {
+                    onError(it)
+                }
+            }
+        }
+    }
+
+    override suspend fun getProfilePicture(onSuccess: (Uri) -> Unit, onError: (Throwable) -> Unit) {
+        withContext(dispatcherProvider.io) {
+            auth.currentUser?.let { user ->
+                storage.reference.child("images").child(user.uid)
+                    .downloadUrl
+                    .addOnSuccessListener {
+                        onSuccess(it)
+                    }.addOnFailureListener { onError(it)  }
             }
         }
     }

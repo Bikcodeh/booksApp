@@ -147,7 +147,31 @@ fun SetupBottomNavGraphAdmin(
         ) {
             CategoryScreen(paddingValues, showSnackBar)
         }
-        composable(route = Screens.ChangePassword.route) {
+        composable(route = Screens.ChangePassword.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(300)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(300)
+                )
+            }) {
             ChangePasswordScreen(onBack = { navController.popBackStack() }, showSnackBar)
         }
     }
