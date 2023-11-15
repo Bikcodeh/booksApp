@@ -24,6 +24,7 @@ fun ChangePasswordScreen(
         },
         uiState = state,
         currentPassword = accountViewModel.viewState.user?.password,
-        showSnackBar = showSnackBar
+        showSnackBar = showSnackBar,
+        onChangePasswordSave = { accountViewModel.handleEvents(AccountEvent.OnChangePasswordSave) }
     )
 }

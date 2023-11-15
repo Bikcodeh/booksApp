@@ -12,8 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -37,16 +39,20 @@ fun ChangePasswordContent(
     currentPassword: String?,
     onChangePassword: (String) -> Unit,
     onChangeConfirmPassword: (String) -> Unit,
-    uiState: ChangePasswordUiState
+    uiState: ChangePasswordUiState,
+    onChangePasswordSave: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val requestFocus = LocalFocusManager.current
+    val context = LocalContext.current
     uiState.alertText?.let {
-        showSnackBar(it.toString())
+        showSnackBar(it.asString(LocalContext.current))
         onChangePassword("")
         onChangeConfirmPassword("")
     }
-    uiState.error?.let { showSnackBar(it.toString()) }
+    LaunchedEffect(key1 = uiState.error) {
+        uiState.error?.let { showSnackBar(it.asString(context)) }
+    }
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
@@ -92,17 +98,24 @@ fun ChangePasswordContent(
                 label = R.string.new_password,
                 placeholder = R.string.password_placeholder,
                 formValue = uiState.password,
-                onChangeValue = { onChangePassword(it) }
+                onChangeValue = { onChangePassword(it) },
+                error = uiState.passwordError
             )
             Spacer(modifier = Modifier.height(8.dp))
             FormFieldStringPassword(
                 label = R.string.confirm_new_password,
                 placeholder = R.string.password_placeholder,
                 formValue = uiState.confirmPassword,
-                onChangeValue = { onChangeConfirmPassword(it) }
+                onChangeValue = { onChangeConfirmPassword(it) },
+                error = uiState.confirmPasswordError
             )
             Spacer(modifier = Modifier.height(40.dp))
-            Button(onClick = {}, modifier = Modifier.fillMaxWidth(), shape = ShapeDefaults.Medium) {
+            Button(
+                enabled = uiState.formValid,
+                onClick = { onChangePasswordSave() },
+                modifier = Modifier.fillMaxWidth(),
+                shape = ShapeDefaults.Medium
+            ) {
                 Text(
                     text = stringResource(id = R.string.update_password).uppercase(),
                     fontWeight = FontWeight.Bold

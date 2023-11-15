@@ -5,9 +5,8 @@ import com.bikcode.booksapp.core.functions.isPasswordValid
 import com.bikcode.booksapp.core.generic.UiText
 import com.bikcode.booksapp.domain.commons.BaseValidationUseCase
 import com.bikcode.booksapp.domain.model.ValidationResult
-import javax.inject.Inject
 
-class ValidatePasswordUseCase @Inject constructor() :
+class ValidatePasswordUseCase() :
     BaseValidationUseCase<String, ValidationResult> {
     override fun execute(input: String, errorString: Int?): ValidationResult {
         return when {
@@ -18,7 +17,7 @@ class ValidatePasswordUseCase @Inject constructor() :
 
             !isPasswordValid(input) -> ValidationResult(
                 successful = false,
-                errorMessage = UiText.StringResource(resId = R.string.strThePasswordNeedsToConsistOfAtLeastEightCharacters),
+                errorMessage = UiText.StringResource(resId = R.string.strThePasswordNeedsToContainAtLeastOneLetterAndDigit),
             )
 
             else -> ValidationResult(

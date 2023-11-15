@@ -7,8 +7,6 @@ import com.bikcode.booksapp.ui.utils.ViewEvent
 
 sealed class AccountEvent : ViewEvent {
     data class OnNameChange(val text: String) : AccountEvent()
-    object OnSave : AccountEvent()
-    object OnChangePasswordClick : AccountEvent()
     object OnChangePasswordSave : AccountEvent()
     data class OnPasswordChange(val text: String): AccountEvent()
     data class OnConfirmPasswordChange(val text: String): AccountEvent()
@@ -29,5 +27,8 @@ data class ChangePasswordUiState(
     val error: UiText? = null,
     val password: String = "",
     val confirmPassword: String = "",
-    val alertText: UiText? = null
+    val alertText: UiText? = null,
+    val formValid: Boolean = false,
+    val passwordError: UiText? = null,
+    val confirmPasswordError: UiText? = null,
 )
