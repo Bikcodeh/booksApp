@@ -57,8 +57,10 @@ fun CategoryContent(
 ) {
     val localFocusManager = LocalFocusManager.current
     val context = LocalContext.current
-    uiState.error?.let {
-        showSnackBar(it.toString())
+    LaunchedEffect(key1 = uiState.error) {
+        uiState.error?.let {
+            showSnackBar(it.asString(context))
+        }
     }
     LaunchedEffect(key1 = uiState.loading) {
         dispatchEventBusEvent(CategoryFab(show = !uiState.loading) {
