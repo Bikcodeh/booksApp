@@ -34,7 +34,8 @@ data class Example(
 @Composable
 fun DashboardScreen(
     paddingValues: PaddingValues,
-    showSnackBar: (String) -> Unit
+    showSnackBar: (String) -> Unit,
+    onClick: () -> Unit
 ) {
     val state = rememberLazyGridState()
     val list = remember { mutableListOf<Example>().apply {
@@ -75,7 +76,8 @@ fun DashboardScreen(
                 modifier = Modifier.padding(4.dp),
                 titleBook = "${it.title} $it",
                 authorBook = "${it.author} $it",
-                imageUrl = ""
+                imageUrl = "",
+                onClick = onClick
             )
         }
     }

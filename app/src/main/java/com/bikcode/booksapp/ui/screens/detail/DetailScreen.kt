@@ -3,16 +3,15 @@ package com.bikcode.booksapp.ui.screens.detail
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +46,7 @@ fun DetailScreen() {
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .width(400.dp)
+                .fillMaxWidth()
                 .height(300.dp)
                 .constrainAs(picture) {
                     linkTo(parent.start, parent.end)
@@ -83,13 +82,14 @@ fun DetailScreen() {
                 top.linkTo(author.bottom, 16.dp)
                 linkTo(parent.start, parent.end)
                 width = Dimension.fillToConstraints
-            },
+            }
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
             style = MaterialTheme.typography.bodyLarge
         )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun DetailPreview() {
     DetailScreen()

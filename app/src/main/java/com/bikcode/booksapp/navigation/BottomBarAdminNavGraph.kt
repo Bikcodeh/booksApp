@@ -11,6 +11,7 @@ import com.bikcode.booksapp.ui.screens.account.ui.AccountScreen
 import com.bikcode.booksapp.ui.screens.category.CategoryScreen
 import com.bikcode.booksapp.ui.screens.account.ui.password.ChangePasswordScreen
 import com.bikcode.booksapp.ui.screens.dashboard.DashboardScreen
+import com.bikcode.booksapp.ui.screens.detail.DetailScreen
 import com.bikcode.booksapp.ui.screens.upload.UploadScreen
 
 @Composable
@@ -51,7 +52,9 @@ fun SetupBottomNavGraphAdmin(
                 )
             }
         ) {
-            DashboardScreen(paddingValues, showSnackBar)
+            DashboardScreen(paddingValues, showSnackBar, onClick = {
+                navController.navigate(Screens.Details.route)
+            })
         }
         composable(
             route = BottomBarRoutesAdmin.ACCOUNT.route,
@@ -173,6 +176,9 @@ fun SetupBottomNavGraphAdmin(
                 )
             }) {
             ChangePasswordScreen(onBack = { navController.popBackStack() }, showSnackBar)
+        }
+        composable(route = Screens.Details.route) {
+            DetailScreen()
         }
     }
 }

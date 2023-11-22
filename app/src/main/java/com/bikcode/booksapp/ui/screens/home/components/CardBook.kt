@@ -27,10 +27,11 @@ fun CardBook(
     modifier: Modifier = Modifier,
     titleBook: String,
     authorBook: String,
-    imageUrl: String
+    imageUrl: String,
+    onClick: () -> Unit
 ) {
     Column(
-        modifier = modifier.clickable {  },
+        modifier = modifier.clickable { onClick() },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -76,6 +77,7 @@ private fun CardBookPreview() {
     CardBook(
         titleBook = "Cien años de soledad",
         authorBook = "Gabriel García Marquéz",
-        imageUrl = ""
+        imageUrl = "",
+        onClick = {}
     )
 }
