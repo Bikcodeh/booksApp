@@ -23,24 +23,23 @@ class AuthRepositoryImpl @Inject constructor(
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val data = hashMapOf<String, Any>().apply {
-            put(UID_KEY, UUID.randomUUID().toString())
+        val data = mutableMapOf<String, Any>().apply {
             put(NAME_KEY, name)
             put(EMAIL_KEY, email)
             put(PASSWORD_KEY, password)
             put(ROLE_ID_KEY, ROLE_USER_ID)
         }
         withContext(dispatcherProvider.io) {
-            FirebaseFirestore.getInstance().collection(USER_REFERENCE).add(data)
-                .addOnSuccessListener {
-                    auth.createUserWithEmailAndPassword(
-                        data[EMAIL_KEY] as String,
-                        data[PASSWORD_KEY] as String
-                    )
+            auth.createUserWithEmailAndPassword(
+                data[EMAIL_KEY] as String,
+                data[PASSWORD_KEY] as String
+            ).addOnSuccessListener {
+                data[UID_KEY] = it.user?.uid!!
+                db.collection(USER_REFERENCE).add(data)
                         .addOnSuccessListener {
                             onSuccess()
-                        }.addOnFailureListener {
-                            onError(it)
+                        }.addOnFailureListener { error ->
+                            onError(error)
                         }
                 }.addOnFailureListener {
                     onError(it)
